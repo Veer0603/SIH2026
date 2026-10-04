@@ -455,8 +455,9 @@ export default function NavigationFlowGuideModal({ isOpen, onClose, onNavigate }
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(15, 23, 42, 0.75)',
-        backdropFilter: 'blur(8px)',
+        backgroundColor: 'rgba(19, 27, 35, 0.72)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
         zIndex: 10000,
         display: 'flex',
         alignItems: 'center',
@@ -469,9 +470,9 @@ export default function NavigationFlowGuideModal({ isOpen, onClose, onNavigate }
       <div
         style={{
           backgroundColor: 'var(--bg-panel)',
-          borderRadius: 'var(--radius-panel, 14px)',
+          borderRadius: 'var(--radius-panel, 16px)',
           border: '1px solid var(--border-color)',
-          boxShadow: 'var(--shadow-lg)',
+          boxShadow: 'var(--shadow-xl)',
           width: '100%',
           maxWidth: '1060px',
           maxHeight: '92vh',

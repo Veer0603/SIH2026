@@ -443,17 +443,19 @@ export default function AIAQIChatbot({ isFloating = true, onNavigate }) {
                     width: '32px',
                     height: '32px',
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #1e3a8a, #0284c7)',
+                    background: 'var(--color-primary)',
                     color: '#ffffff',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '15px',
+                    fontWeight: 700,
+                    fontSize: '11px',
+                    letterSpacing: '0.02em',
                     flexShrink: 0,
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                    boxShadow: 'var(--shadow-xs)'
                   }}
                 >
-                  🤖
+                  AI
                 </div>
               )}
 
@@ -608,15 +610,16 @@ export default function AIAQIChatbot({ isFloating = true, onNavigate }) {
                 width: '30px',
                 height: '30px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #1e3a8a, #0284c7)',
+                background: 'var(--color-primary)',
                 color: '#ffffff',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '14px'
+                fontSize: '11px',
+                fontWeight: 700
               }}
             >
-              🤖
+              AI
             </div>
             <div
               style={{
@@ -858,16 +861,17 @@ export default function AIAQIChatbot({ isFloating = true, onNavigate }) {
                 width: '42px',
                 height: '42px',
                 borderRadius: '10px',
-                background: 'linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%)',
+                background: 'var(--color-primary)',
                 color: '#ffffff',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '22px',
-                boxShadow: '0 2px 8px rgba(30, 58, 138, 0.25)'
+                fontWeight: 700,
+                fontSize: '13px',
+                boxShadow: 'var(--shadow-xs)'
               }}
             >
-              🤖
+              AI
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -954,19 +958,18 @@ export default function AIAQIChatbot({ isFloating = true, onNavigate }) {
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
-              padding: '12px 18px',
-              borderRadius: '30px',
-              background: 'linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%)',
+              padding: '10px 16px',
+              borderRadius: 'var(--radius-btn)',
+              background: 'var(--color-primary)',
               color: '#ffffff',
-              border: '2px solid rgba(255, 255, 255, 0.25)',
-              boxShadow: '0 8px 24px rgba(2, 132, 199, 0.45)',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              boxShadow: 'var(--shadow-md)',
               cursor: 'pointer',
-              fontWeight: 800,
-              fontSize: '14px',
-              transition: 'all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              fontWeight: 600,
+              fontSize: '13px',
+              transition: 'var(--transition-base)'
             }}
           >
-            <span style={{ fontSize: '18px' }}>🤖</span>
             <span>{language === 'hi' ? 'एआई से पूछें' : 'Ask AERIS AI'}</span>
             <span
               style={{
@@ -1053,8 +1056,9 @@ export default function AIAQIChatbot({ isFloating = true, onNavigate }) {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(15, 23, 42, 0.45)',
-              backdropFilter: 'blur(2px)',
+              backgroundColor: 'rgba(19, 27, 35, 0.65)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
               zIndex: 99998
             }}
             title="Click outside to close (Esc)"
@@ -1075,18 +1079,19 @@ export default function AIAQIChatbot({ isFloating = true, onNavigate }) {
               flexDirection: 'column',
               padding: 0,
               overflow: 'hidden',
-              borderRadius: '16px',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
-              border: '2px solid rgba(59, 130, 246, 0.4)',
+              borderRadius: 'var(--radius-panel, 16px)',
+              boxShadow: 'var(--shadow-xl)',
+              border: '1px solid var(--border-color)',
               animation: 'fadeInUp 0.25s ease-out'
             }}
           >
             {/* Header */}
             <div
               style={{
-                padding: '12px 16px',
-                background: 'linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%)',
-                color: '#ffffff',
+                padding: '14px 18px',
+                background: 'var(--color-surface-2)',
+                color: 'var(--color-text)',
+                borderBottom: '1px solid var(--color-border)',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center'
@@ -1095,17 +1100,19 @@ export default function AIAQIChatbot({ isFloating = true, onNavigate }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div
                   style={{
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: 'var(--radius-sm)',
+                    backgroundColor: 'var(--color-primary-soft)',
+                    color: 'var(--color-primary)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '18px'
+                    fontSize: '11px',
+                    fontWeight: 700
                   }}
                 >
-                  🤖
+                  AI
                 </div>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: '14.5px', display: 'flex', alignItems: 'center', gap: '6px' }}>

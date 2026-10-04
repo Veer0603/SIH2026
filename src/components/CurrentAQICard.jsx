@@ -41,7 +41,7 @@ export default function CurrentAQICard({ station, customLocality }) {
       <div className="panel-header" style={{ alignItems: 'flex-start' }}>
         <div>
           <div className="panel-title" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <span>{language === 'hi' ? 'वर्तमान वायुमंडलीय स्थिति' : 'CURRENT ATMOSPHERIC STATE'} — {customLocality ? customLocality.displayName : station.name}</span>
+            <span>{language === 'hi' ? 'वर्तमान वायुमंडलीय स्थिति' : 'CURRENT ATMOSPHERIC STATE'}: {customLocality ? customLocality.displayName : station.name}</span>
             
             {/* Live Telemetry Verification Pill */}
             <span style={{
@@ -92,9 +92,9 @@ export default function CurrentAQICard({ station, customLocality }) {
           <button
             onClick={() => toggleFavorite(station.id)}
             className="btn btn-outline btn-sm"
-            style={{ fontSize: '11.5px', padding: '5px 10px' }}
+            style={{ fontSize: '11.5px', padding: '5px 10px', borderRadius: 'var(--radius-btn)' }}
           >
-            {isFavorite ? (language === 'hi' ? '⭐ पिन किया गया' : '⭐ Pinned') : (language === 'hi' ? '☆ पिन करें' : '☆ Pin')}
+            {isFavorite ? (language === 'hi' ? 'पिन किया गया' : 'Pinned') : (language === 'hi' ? 'पिन करें' : 'Pin')}
           </button>
         </div>
       </div>
@@ -105,13 +105,14 @@ export default function CurrentAQICard({ station, customLocality }) {
         border: `1px solid ${grapData.border || grapData.color}`,
         color: grapData.color,
         borderRadius: 'var(--radius-card)',
-        padding: '12px 18px',
-        marginBottom: '18px',
+        padding: '14px 20px',
+        marginBottom: '20px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
-        gap: '10px'
+        gap: '12px',
+        boxShadow: 'var(--shadow-xs)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           <span className="tag" style={{
@@ -119,11 +120,12 @@ export default function CurrentAQICard({ station, customLocality }) {
             color: '#ffffff',
             border: 'none',
             fontWeight: 800,
-            fontSize: '11px'
+            fontSize: '11px',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
           }}>
             {grapData.badge}
           </span>
-          <span style={{ fontWeight: 800, fontSize: '13.5px', letterSpacing: '0.01em' }}>
+          <span style={{ fontWeight: 800, fontSize: '13.5px', letterSpacing: '0.02em' }}>
             {language === 'hi' ? 'दिल्ली एनसीआर वैधानिक प्रोटोकॉल:' : 'DELHI NCR STATUTORY PROTOCOL:'} {grapData.stage.toUpperCase()}
           </span>
         </div>
@@ -134,7 +136,7 @@ export default function CurrentAQICard({ station, customLocality }) {
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            fontSize: '12px',
+            fontSize: '12.5px',
             fontWeight: 700,
             color: grapData.color,
             textDecoration: 'underline'
@@ -152,16 +154,17 @@ export default function CurrentAQICard({ station, customLocality }) {
           backgroundColor: 'var(--bg-panel-subtle)',
           border: '1px solid var(--border-color)',
           borderRadius: 'var(--radius-card)',
-          padding: '16px',
-          marginBottom: '18px',
-          fontSize: '13px'
+          padding: '16px 20px',
+          marginBottom: '20px',
+          fontSize: '13px',
+          boxShadow: 'var(--shadow-xs)'
         }}>
-          <div style={{ fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', color: 'var(--text-muted)', fontSize: '11.5px', letterSpacing: '0.04em' }}>
+          <div style={{ fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', color: 'var(--text-muted)', fontSize: '11.5px', letterSpacing: '0.05em' }}>
             {language === 'hi' ? `GRAP ${grapData.stage} के तहत लागू वैधानिक निर्देश:` : `Statutory Directives Enforced Under ${grapData.stage}:`}
           </div>
-          <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+          <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {grapData.actions.map((act, idx) => (
-              <li key={idx} style={{ color: 'var(--text-main)', lineHeight: 1.45 }}>
+              <li key={idx} style={{ color: 'var(--text-main)', lineHeight: 1.5 }}>
                 {act}
               </li>
             ))}
@@ -173,20 +176,21 @@ export default function CurrentAQICard({ station, customLocality }) {
       <div className="grid-2" style={{ alignItems: 'stretch', gap: '20px' }}>
         {/* Left: Interactive Radial Gauge & Cigarette Equivalent */}
         <div className={`metric-box ${categoryMeta.bgClass}`} style={{
-          padding: '22px',
+          padding: '24px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           alignItems: 'center',
           textAlign: 'center',
-          borderRadius: 'var(--radius-card)',
-          border: '1px solid currentColor'
+          borderRadius: 'var(--radius-panel)',
+          border: '1px solid currentColor',
+          boxShadow: 'var(--shadow-sm)'
         }}>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
             <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               {language === 'hi' ? 'वास्तविक समय CPCB टेलीमेट्री' : 'Real-Time CPCB Telemetry'}
             </span>
-            <span className="tag" style={{ border: '1px solid currentColor', fontWeight: 800, fontSize: '11px' }}>
+            <span className="tag" style={{ border: '1px solid currentColor', fontWeight: 800, fontSize: '11px', borderRadius: 'var(--radius-full)' }}>
               {language === 'hi' && categoryMeta.labelHi ? categoryMeta.labelHi.split(' ')[0].toUpperCase() : activeCategory.toUpperCase()}
             </span>
           </div>
@@ -199,13 +203,13 @@ export default function CurrentAQICard({ station, customLocality }) {
             marginTop: '16px',
             backgroundColor: 'var(--bg-panel)',
             border: '1px solid currentColor',
-            borderRadius: 'var(--radius-sm)',
-            padding: '12px 14px',
+            borderRadius: 'var(--radius-card)',
+            padding: '14px 16px',
             textAlign: 'left',
             boxShadow: 'var(--shadow-sm)'
           }}>
             {/* Mode Switcher Tabs */}
-            <div style={{ display: 'flex', gap: '6px', marginBottom: '8px', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+            <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px' }}>
               <button
                 type="button"
                 onClick={() => setHealthMetricMode('cigarette')}
@@ -213,14 +217,15 @@ export default function CurrentAQICard({ station, customLocality }) {
                   background: healthMetricMode === 'cigarette' ? 'var(--accent-primary)' : 'transparent',
                   color: healthMetricMode === 'cigarette' ? '#ffffff' : 'var(--text-muted)',
                   border: 'none',
-                  borderRadius: '4px',
-                  padding: '3px 8px',
-                  fontSize: '10.5px',
-                  fontWeight: 700,
-                  cursor: 'pointer'
+                  borderRadius: 'var(--radius-btn)',
+                  padding: '4px 10px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
                 }}
               >
-                🚬 {language === 'hi' ? 'सिगरेट समतुल्य' : 'Cigarette Equiv'}
+                {language === 'hi' ? 'सिगरेट समतुल्य' : 'Cigarette Equiv'}
               </button>
               <button
                 type="button"
@@ -229,14 +234,15 @@ export default function CurrentAQICard({ station, customLocality }) {
                   background: healthMetricMode === 'aqli' ? 'var(--accent-primary)' : 'transparent',
                   color: healthMetricMode === 'aqli' ? '#ffffff' : 'var(--text-muted)',
                   border: 'none',
-                  borderRadius: '4px',
-                  padding: '3px 8px',
-                  fontSize: '10.5px',
-                  fontWeight: 700,
-                  cursor: 'pointer'
+                  borderRadius: 'var(--radius-btn)',
+                  padding: '4px 10px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
                 }}
               >
-                ⏳ {language === 'hi' ? 'AQLI आयु प्रभाव' : 'AQLI Life Impact'}
+                {language === 'hi' ? 'AQLI आयु प्रभाव' : 'AQLI Life Impact'}
               </button>
             </div>
 

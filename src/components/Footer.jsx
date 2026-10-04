@@ -18,7 +18,7 @@ export default function Footer({ onOpenModal, onOpenFlowGuide }) {
         <div className="grid-2" style={{ gap: '24px', marginBottom: '24px' }}>
           <div>
             <div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-main)', marginBottom: '6px' }}>
-              {t('footer.heading', 'AERIS DELHI — COUPLED ATMOSPHERIC AQI ENGINE')}
+              {t('footer.heading', 'AERIS DELHI: COUPLED ATMOSPHERIC AQI ENGINE')}
             </div>
             <p className="muted" style={{ fontSize: '13px', maxWidth: '520px', lineHeight: 1.5 }}>
               {t('footer.description', 'High-resolution 72-hour forecast system for Delhi NCR interlinking planetary boundary layer physics, surface weather parameters, and PM2.5/Ozone chemical transport.')}
@@ -31,17 +31,16 @@ export default function Footer({ onOpenModal, onOpenFlowGuide }) {
                 style={{
                   fontSize: '11.5px',
                   padding: '4px 10px',
-                  borderRadius: '20px',
+                  borderRadius: 'var(--radius-btn)',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
                   borderColor: 'var(--accent-primary)',
                   color: 'var(--accent-primary)',
-                  fontWeight: 700,
+                  fontWeight: 600,
                   marginTop: '8px'
                 }}
               >
-                <span>🧭</span>
                 <span>{isHindi ? 'वेबसाइट नेविगेशन रोडमैप व फ्लो गाइड देखें' : 'View Master Navigation Roadmap & Flow Guide'}</span>
               </button>
             )}
@@ -74,7 +73,7 @@ export default function Footer({ onOpenModal, onOpenFlowGuide }) {
 
         <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: 'var(--text-muted)', flexWrap: 'wrap', gap: '8px' }}>
           <div>
-            © {CURRENT_YEAR} {t('footer.copyright', 'AERIS Delhi — Atmosphere & Chemistry Resilient Intelligence Engine')}
+            © {CURRENT_YEAR} {t('footer.copyright', 'AERIS Delhi: Atmosphere & Chemistry Resilient Intelligence Engine')}
           </div>
           <div>
             {language === 'hi' ? 'AeroLedger स्थिति: ' : 'AeroLedger Mainnet Status: '}

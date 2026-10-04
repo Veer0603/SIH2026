@@ -125,12 +125,13 @@ export default function SearchGeocoding({ onSelectStation, onCustomLocationSelec
         {showDropdown && suggestions.length > 0 && (
           <div style={{
             position: 'absolute',
-            top: '100%',
+            top: 'calc(100% + 4px)',
             left: 0,
             right: 0,
-            backgroundColor: 'var(--bg-input)',
-            border: '1px solid var(--border-dark)',
-            borderTop: 'none',
+            backgroundColor: 'var(--bg-panel)',
+            border: '1px solid var(--border-color)',
+            borderRadius: 'var(--radius-card, 12px)',
+            boxShadow: 'var(--shadow-lg)',
             zIndex: 999,
             maxHeight: '300px',
             overflowY: 'auto'

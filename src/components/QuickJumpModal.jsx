@@ -183,8 +183,9 @@ export default function QuickJumpModal({ isOpen, onClose, onNavigate }) {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(15, 23, 42, 0.7)',
-        backdropFilter: 'blur(6px)',
+        backgroundColor: 'rgba(19, 27, 35, 0.72)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
         zIndex: 10001,
         display: 'flex',
         alignItems: 'flex-start',
@@ -199,9 +200,9 @@ export default function QuickJumpModal({ isOpen, onClose, onNavigate }) {
       <div
         style={{
           backgroundColor: 'var(--bg-panel)',
-          borderRadius: 'var(--radius-panel, 14px)',
+          borderRadius: 'var(--radius-panel, 16px)',
           border: '1px solid var(--border-color)',
-          boxShadow: 'var(--shadow-lg)',
+          boxShadow: 'var(--shadow-xl)',
           width: '100%',
           maxWidth: '640px',
           overflow: 'hidden',

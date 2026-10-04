@@ -8,13 +8,19 @@ export default function MapStationPage({ onOpenAddModal }) {
 
   return (
     <div>
-      <div className="panel" style={{ backgroundColor: 'var(--bg-panel-subtle)', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div className="panel" style={{
+        background: 'var(--color-surface)',
+        marginBottom: '20px',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-panel)',
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
           <div>
-            <div className="tag" style={{ backgroundColor: 'var(--accent-primary)', color: '#ffffff', marginBottom: '6px' }}>
+            <div className="tag" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-border)', marginBottom: '8px', fontWeight: 600 }}>
               {t('map.tag', 'Mapbox HD Vector Tiles')}
             </div>
-            <h1 style={{ fontSize: '26px', fontWeight: 800 }}>
+            <h1 style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-main)', marginBottom: '4px' }}>
               {t('map.title', 'Delhi NCR Mapbox Monitoring Grid & Data Matrix')}
             </h1>
             <p className="muted" style={{ margin: 0 }}>
@@ -27,6 +33,7 @@ export default function MapStationPage({ onOpenAddModal }) {
           <button
             onClick={onOpenAddModal}
             className="btn"
+            style={{ fontWeight: 700, padding: '8px 16px', borderRadius: 'var(--radius-btn)' }}
           >
             {t('map.addReading', '+ Add Station / Reading')}
           </button>

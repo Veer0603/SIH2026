@@ -37,13 +37,19 @@ export default function ChatbotPage({ onNavigate }) {
   return (
     <div>
       {/* Top Banner */}
-      <div className="panel" style={{ backgroundColor: 'var(--bg-panel-subtle)', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div className="panel" style={{
+        background: 'var(--color-surface)',
+        marginBottom: '20px',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-panel)',
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
           <div>
-            <div className="tag" style={{ backgroundColor: 'var(--accent-primary)', color: '#ffffff', marginBottom: '6px' }}>
+            <div className="tag" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-border)', marginBottom: '8px', fontWeight: 600 }}>
               {isHindi ? 'एआई पर्यावरण व स्वास्थ्य चैटबॉट' : 'Interactive Environmental Intelligence'}
             </div>
-            <h1 style={{ fontSize: '26px', fontWeight: 800 }}>
+            <h1 style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-main)', marginBottom: '4px' }}>
               {isHindi ? 'AERIS दिल्ली एआई वायु परामर्शदाता' : 'AERIS Delhi Air Quality AI Assistant'}
             </h1>
             <p className="muted" style={{ margin: 0 }}>
@@ -58,7 +64,7 @@ export default function ChatbotPage({ onNavigate }) {
               <button
                 onClick={() => onNavigate('overview')}
                 className="btn btn-outline btn-sm"
-                style={{ fontWeight: 700 }}
+                style={{ fontWeight: 700, borderRadius: 'var(--radius-btn)' }}
               >
                 ← {isHindi ? 'डैशबोर्ड पर वापस जाएं' : 'Back to Dashboard'}
               </button>
@@ -67,13 +73,15 @@ export default function ChatbotPage({ onNavigate }) {
               <button
                 onClick={() => onNavigate('map')}
                 className="btn btn-outline btn-sm"
+                style={{ borderRadius: 'var(--radius-btn)' }}
               >
-                🗺️ {isHindi ? 'नक्शा देखें' : 'View Map'}
+                {isHindi ? 'नक्शा देखें' : 'View Map'}
               </button>
             )}
             <span className="tag" style={{
-              backgroundColor: selectedStation.aqi > 300 ? '#7a1d1d' : selectedStation.aqi > 200 ? '#7c3514' : '#1e3a8a',
-              color: '#ffffff',
+              backgroundColor: selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-bg)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-bg)' : 'var(--accent-primary)',
+              color: selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-text)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-text)' : '#ffffff',
+              borderColor: selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-border)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-border)' : 'var(--accent-primary)',
               fontWeight: 800
             }}>
               {selectedStation.shortName} • AQI {selectedStation.aqi}
@@ -95,7 +103,7 @@ export default function ChatbotPage({ onNavigate }) {
           <div className="panel">
             <div className="panel-header">
               <div className="panel-title">
-                <span>{isHindi ? '📡 लाइव टेलीमेट्री संदर्भ' : '📡 LIVE TELEMETRY CONTEXT'}</span>
+                <span>{isHindi ? 'लाइव टेलीमेट्री संदर्भ' : 'LIVE TELEMETRY CONTEXT'}</span>
               </div>
               <span className="live-pulse-dot" />
             </div>
@@ -132,7 +140,7 @@ export default function ChatbotPage({ onNavigate }) {
           <div className="panel">
             <div className="panel-header">
               <div className="panel-title">
-                <span>{isHindi ? '💡 दिल्लीवासियों के प्रमुख प्रश्न' : '💡 TOP CITIZEN SMOG FAQS'}</span>
+                <span>{isHindi ? 'दिल्लीवासियों के प्रमुख प्रश्न' : 'TOP CITIZEN SMOG FAQS'}</span>
               </div>
             </div>
 
@@ -147,8 +155,8 @@ export default function ChatbotPage({ onNavigate }) {
                     backgroundColor: 'var(--bg-panel-subtle)'
                   }}
                 >
-                  <div style={{ fontWeight: 800, fontSize: '13px', marginBottom: '4px', color: 'var(--accent-primary)' }}>
-                    ❓ {faq.q}
+                  <div style={{ fontWeight: 700, fontSize: '13px', marginBottom: '4px', color: 'var(--color-primary)' }}>
+                    {faq.q}
                   </div>
                   <div style={{ fontSize: '12px', color: 'var(--text-main)', lineHeight: 1.5 }}>
                     {faq.a}
@@ -162,16 +170,16 @@ export default function ChatbotPage({ onNavigate }) {
           <div className="panel">
             <div className="panel-header">
               <div className="panel-title">
-                <span>{isHindi ? '⚡ उपयोगी AERIS टूल्स' : '⚡ AERIS SCIENTIFIC TOOLS'}</span>
+                <span>{isHindi ? 'उपयोगी AERIS टूल्स' : 'AERIS SCIENTIFIC TOOLS'}</span>
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
               {[
-                { page: 'map', label: isHindi ? '🗺️ मैपबॉक्स ग्रिड' : '🗺️ Mapbox Grid', desc: isHindi ? 'हॉटस्पॉट व पराली धुआं' : 'Hotspots & stubble' },
-                { page: 'route-planner', label: isHindi ? '🧭 यात्रा प्लानर' : '🧭 Commute Planner', desc: isHindi ? 'मेट्रो बनाम कार डोज़' : 'Metro vs cab dose' },
-                { page: 'inversion', label: isHindi ? '🧪 इनवर्जन सिम्युलेटर' : '🧪 Inversion Sandbox', desc: isHindi ? 'PBL भौतिकी' : 'PBL physics model' },
-                { page: 'forecast', label: isHindi ? '⏳ 72h पूर्वानुमान' : '⏳ 72h Forecast', desc: isHindi ? 'ग्रैप नीति अनुपालन' : 'GRAP policy timeline' }
+                { page: 'map', label: isHindi ? 'मैपबॉक्स ग्रिड' : 'Mapbox Grid', desc: isHindi ? 'हॉटस्पॉट व पराली धुआं' : 'Hotspots & stubble' },
+                { page: 'route-planner', label: isHindi ? 'यात्रा प्लानर' : 'Commute Planner', desc: isHindi ? 'मेट्रो बनाम कार डोज़' : 'Metro vs cab dose' },
+                { page: 'inversion', label: isHindi ? 'इनवर्जन सिम्युलेटर' : 'Inversion Sandbox', desc: isHindi ? 'PBL भौतिकी' : 'PBL physics model' },
+                { page: 'forecast', label: isHindi ? '72h पूर्वानुमान' : '72h Forecast', desc: isHindi ? 'ग्रैप नीति अनुपालन' : 'GRAP policy timeline' }
               ].map(tl => (
                 <div
                   key={tl.page}

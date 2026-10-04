@@ -28,7 +28,9 @@ export default function TermsPrivacyModal({ mode, onClose }) {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(24, 27, 29, 0.6)',
+        backgroundColor: 'rgba(19, 27, 35, 0.7)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
         zIndex: 2000,
         display: 'flex',
         alignItems: 'center',
@@ -39,9 +41,10 @@ export default function TermsPrivacyModal({ mode, onClose }) {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: 'var(--bg-page)',
-          border: '2px solid var(--border-dark)',
-          borderRadius: 'var(--radius-sharp)',
+          backgroundColor: 'var(--bg-panel)',
+          border: '1px solid var(--border-color)',
+          borderRadius: 'var(--radius-panel, 16px)',
+          boxShadow: 'var(--shadow-xl)',
           maxWidth: '680px',
           width: '100%',
           maxHeight: '85vh',
@@ -54,13 +57,13 @@ export default function TermsPrivacyModal({ mode, onClose }) {
             {mode === 'terms' ? 'Terms of Service (Draft for Review)' : 'Privacy Policy (Draft for Review)'}
           </h2>
           <button onClick={onClose} className="btn btn-outline btn-sm">
-            Close ✕
+            Close
           </button>
         </div>
 
         {mode === 'terms' ? (
           <div style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--text-main)' }}>
-            <p><strong>DRAFT FOR LEGAL REVIEW — AERIS DELHI FORECASTING SYSTEM</strong></p>
+            <p><strong>DRAFT FOR LEGAL REVIEW: AERIS DELHI FORECASTING SYSTEM</strong></p>
             
             <h4 style={{ margin: '12px 0 4px 0' }}>1. Service Scope & Forecast Nature</h4>
             <p>
@@ -79,7 +82,7 @@ export default function TermsPrivacyModal({ mode, onClose }) {
           </div>
         ) : (
           <div style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--text-main)' }}>
-            <p><strong>DRAFT FOR PRIVACY REVIEW — AERIS DELHI PLATFORM</strong></p>
+            <p><strong>DRAFT FOR PRIVACY REVIEW: AERIS DELHI PLATFORM</strong></p>
             
             <h4 style={{ margin: '12px 0 4px 0' }}>1. Geocoding Search & Query Privacy</h4>
             <p>

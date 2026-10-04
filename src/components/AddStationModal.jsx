@@ -112,30 +112,31 @@ export default function AddStationModal({ isOpen, onClose, onAddStation }) {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-        backgroundColor: 'var(--bg-page)',
-        border: '2px solid var(--accent-primary)',
-        borderRadius: 'var(--radius-sharp)',
+        backgroundColor: 'var(--bg-panel)',
+        border: '1px solid var(--border-color)',
+        borderRadius: 'var(--radius-panel)',
+        boxShadow: 'var(--shadow-lg)',
         maxWidth: '620px',
         width: '100%',
         maxHeight: '90vh',
         overflowY: 'auto',
-        padding: '24px'
+        padding: '26px'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
-          <h2 style={{ fontSize: '18px', textTransform: 'uppercase', color: 'var(--accent-primary)', letterSpacing: '-0.02em' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', letterSpacing: '-0.02em', margin: 0 }}>
             + Add New Station / Report Air Reading
           </h2>
-          <button onClick={onClose} className="btn btn-outline btn-sm">
-            Close ✕
+          <button onClick={onClose} className="btn btn-outline btn-sm" style={{ borderRadius: 'var(--radius-btn)', padding: '4px 10px' }}>
+            ✕
           </button>
         </div>
 
-        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '16px' }}>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '16px' }}>
           Add a new air quality monitoring point or report a community IoT sensor reading in Delhi NCR. Telemetry will be timestamped and committed to the AeroLedger blockchain.
         </p>
 
         {error && (
-          <div style={{ padding: '8px 12px', backgroundColor: 'var(--aqi-unhealthy-bg)', border: '1px solid var(--aqi-unhealthy-border)', color: 'var(--aqi-unhealthy-text)', fontSize: '13px', marginBottom: '14px' }}>
+          <div style={{ padding: '10px 14px', backgroundColor: 'var(--aqi-unhealthy-bg)', border: '1px solid var(--aqi-unhealthy-border)', color: 'var(--aqi-unhealthy-text)', borderRadius: 'var(--radius-sm)', fontSize: '13px', marginBottom: '14px' }}>
             {error}
           </div>
         )}

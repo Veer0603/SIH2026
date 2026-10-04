@@ -97,9 +97,10 @@ export default function BlockchainLedgerView() {
 
       {/* Selected Station Verification Action Bar */}
       <div style={{
-        backgroundColor: 'var(--bg-page)',
-        padding: '16px',
+        backgroundColor: 'var(--bg-panel-subtle)',
+        padding: '16px 20px',
         border: '1px solid var(--border-color)',
+        borderRadius: 'var(--radius-card, 12px)',
         marginBottom: '20px',
         display: 'flex',
         justifyContent: 'space-between',
@@ -108,13 +109,13 @@ export default function BlockchainLedgerView() {
         gap: '12px'
       }}>
         <div>
-          <div style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
             Selected Monitoring Target
           </div>
-          <div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--accent-primary)' }}>
+          <div style={{ fontSize: '17px', fontWeight: 800, color: 'var(--color-primary)', marginTop: '2px' }}>
             {selectedStation.name}
           </div>
-          <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '2px' }}>
             Hash: {selectedStation.blockchainHash}
           </div>
         </div>
@@ -122,6 +123,7 @@ export default function BlockchainLedgerView() {
         <button
           onClick={() => setSelectedProofStation(selectedStation)}
           className="btn btn-outline btn-sm"
+          style={{ borderRadius: 'var(--radius-btn)', fontWeight: 700 }}
         >
           Verify Merkle Proof Receipt
         </button>
@@ -129,35 +131,48 @@ export default function BlockchainLedgerView() {
 
       {/* Detailed Proof Modal/Panel if selected */}
       {selectedProofStation && proofDetail && (
-        <div className="panel-subtle" style={{ backgroundColor: 'var(--bg-page)', border: '2px solid var(--accent-primary)', marginBottom: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-            <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--accent-primary)', textTransform: 'uppercase' }}>
+        <div
+          className="panel-subtle"
+          style={{
+            backgroundColor: 'var(--bg-panel)',
+            border: '1.5px solid var(--color-primary)',
+            borderRadius: 'var(--radius-card, 12px)',
+            boxShadow: 'var(--shadow-sm)',
+            marginBottom: '20px',
+            padding: '20px'
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+            <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--color-primary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               ✓ AeroLedger Cryptographic Verification Receipt
             </span>
             <button
               onClick={() => setSelectedProofStation(null)}
               className="btn btn-outline btn-sm"
+              style={{ borderRadius: 'var(--radius-btn)' }}
             >
               Close Receipt
             </button>
           </div>
 
-          <div className="grid-2" style={{ gap: '12px', fontSize: '13px' }}>
+          <div className="grid-2" style={{ gap: '14px', fontSize: '13px' }}>
             <div>
-              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase' }}>Block Height</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>#{proofDetail.blockHeight}</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Block Height</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '15px' }}>#{proofDetail.blockHeight}</div>
             </div>
             <div>
-              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase' }}>Validator Node Consensus</div>
-              <div style={{ fontWeight: 700, color: '#2b7a3e' }}>{proofDetail.validatorConsensus}</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Validator Node Consensus</div>
+              <div style={{ fontWeight: 800, color: 'var(--cpcb-good, #10b981)' }}>{proofDetail.validatorConsensus}</div>
             </div>
             <div style={{ gridColumn: '1 / -1' }}>
-              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase' }}>Merkle Tree Root</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', wordBreak: 'break-all' }}>{proofDetail.merkleRoot}</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Merkle Tree Root</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', wordBreak: 'break-all', backgroundColor: 'var(--bg-panel-subtle)', padding: '6px 10px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}>
+                {proofDetail.merkleRoot}
+              </div>
             </div>
             <div style={{ gridColumn: '1 / -1' }}>
-              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase' }}>Network & Smart Contract</div>
-              <div>{proofDetail.network} | Address: <code>0xAER0192837465019283746501928374650192837</code></div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Network & Smart Contract</div>
+              <div>{proofDetail.network} | Address: <code style={{ backgroundColor: 'var(--bg-panel-subtle)', padding: '2px 6px', borderRadius: '4px' }}>0xAER0192837465019283746501928374650192837</code></div>
             </div>
           </div>
         </div>
@@ -174,14 +189,14 @@ export default function BlockchainLedgerView() {
               Simulate an adversary attempting to falsify CPCB telemetry readings to artificially lower AQI numbers.
             </span>
           </div>
-          <span className="tag" style={{ backgroundColor: '#22482c', color: '#ffffff' }}>
-            Cryptographic Integrity Lab
+          <span className="tag badge-sand">
+            🛡️ Cryptographic Integrity Lab
           </span>
         </div>
 
         <div className="grid-2" style={{ gap: '16px', alignItems: 'center' }}>
           {/* Adversary Injection Form */}
-          <div style={{ backgroundColor: 'var(--bg-page)', padding: '16px', border: '1px solid var(--border-color)' }}>
+          <div style={{ backgroundColor: 'var(--bg-panel)', padding: '20px', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-card, 12px)', boxShadow: 'var(--shadow-xs)' }}>
             <div style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>
               Configure Forged Telemetry Injection:
             </div>
@@ -228,7 +243,7 @@ export default function BlockchainLedgerView() {
             <button
               onClick={handleTestTampering}
               className="btn btn-sm"
-              style={{ width: '100%', backgroundColor: '#7a1d1d', borderColor: '#7a1d1d' }}
+              style={{ width: '100%', backgroundColor: '#991b1b', borderColor: '#991b1b', borderRadius: 'var(--radius-btn)' }}
             >
               🚨 Attempt Forged Telemetry Broadcast
             </button>

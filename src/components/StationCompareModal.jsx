@@ -113,8 +113,9 @@ export default function StationCompareModal() {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(15, 23, 42, 0.75)',
-        backdropFilter: 'blur(4px)',
+        backgroundColor: 'rgba(19, 27, 35, 0.72)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
         zIndex: 2600,
         display: 'flex',
         alignItems: 'center',
@@ -125,18 +126,18 @@ export default function StationCompareModal() {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: 'var(--bg-page)',
-          border: '2px solid var(--accent-primary)',
+          backgroundColor: 'var(--bg-panel)',
+          border: '1px solid var(--border-color)',
           width: '100%',
         maxWidth: '1150px',
         maxHeight: '92vh',
         overflowY: 'auto',
-        padding: '24px',
-        borderRadius: '12px',
+        padding: '26px',
+        borderRadius: 'var(--radius-panel)',
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
+        gap: '18px',
+        boxShadow: 'var(--shadow-lg)'
       }}>
         {/* Header */}
         <div style={{

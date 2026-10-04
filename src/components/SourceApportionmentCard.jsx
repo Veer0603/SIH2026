@@ -17,35 +17,35 @@ export default function SourceApportionmentCard({ station }) {
     { 
       name: language === 'hi' ? 'वाहनों का धुआं (डीजल व पेट्रोल)' : 'Vehicular Exhaust (Diesel & Petrol)', 
       share: vehicularShare, 
-      color: '#3b82f6', 
+      color: 'var(--color-primary)', 
       icon: '🚗', 
       desc: language === 'hi' ? 'दैनिक ट्रैफिक, भारी परिवहन ट्रक, खड़े वाहनों का धुआं' : 'Commuter traffic, commercial transport trucks, idling vehicles' 
     },
     { 
       name: language === 'hi' ? 'पराली दहन और बायोमास धुआं' : 'Stubble Burning & Biomass Smoke', 
       share: stubbleShare, 
-      color: '#ef4444', 
+      color: 'var(--color-danger)', 
       icon: '🔥', 
       desc: language === 'hi' ? 'उत्तर-पश्चिम हवाओं द्वारा आने वाले कृषि अवशेषों के धुएं के बादल' : 'Regional agricultural residue fires transported via NW winds' 
     },
     { 
       name: language === 'hi' ? 'द्वितीयक अकार्बनिक एरोसोल' : 'Secondary Inorganic Aerosols', 
       share: secondaryAerosol, 
-      color: '#8b5cf6', 
+      color: 'var(--aqi-poor)', 
       icon: '🧪', 
       desc: language === 'hi' ? 'SO2 और NOx का अमोनियम नाइट्रेट्स में रासायनिक संघनन' : 'Chemical condensation of SO2/NOx into ammonium nitrates' 
     },
     { 
       name: language === 'hi' ? 'सड़क की धूल और निर्माण धूल' : 'Road Dust & Construction Silt', 
       share: roadDust, 
-      color: '#f59e0b', 
+      color: 'var(--color-warning)', 
       icon: '🏗️', 
       desc: language === 'hi' ? 'कच्चे सड़क किनारे, निर्माण गतिविधियां, सूखी धूल' : 'Unpaved shoulders, construction activity, dry suspension' 
     },
     { 
       name: language === 'hi' ? 'औद्योगिक उत्सर्जन और कचरा दहन' : 'Industrial Emissions & Waste Burning', 
       share: industrialWaste, 
-      color: '#64748b', 
+      color: 'var(--color-text-secondary)', 
       icon: '🏭', 
       desc: language === 'hi' ? 'ईंट भट्ठे, तापीय संयंत्र, ठोस अपशिष्ट दहन' : 'Brick kilns, thermal plants, municipal solid waste burning' 
     }
@@ -126,9 +126,9 @@ export default function SourceApportionmentCard({ station }) {
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '10px' }}>
           {sources.map((s, idx) => (
             <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
-              <span style={{ width: '10px', height: '10px', borderRadius: '2px', backgroundColor: s.color, display: 'inline-block' }} />
-              <span style={{ fontWeight: 600 }}>{s.icon} {s.name.split('(')[0]}:</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 800 }}>{s.share}%</span>
+              <span style={{ width: '10px', height: '10px', borderRadius: '3px', backgroundColor: s.color, display: 'inline-block' }} />
+              <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>{s.icon} {s.name.split('(')[0]}:</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, color: s.color }}>{s.share}%</span>
             </div>
           ))}
         </div>
@@ -137,9 +137,19 @@ export default function SourceApportionmentCard({ station }) {
       {/* Grid of source details */}
       <div className="grid-3" style={{ gap: '10px' }}>
         {sources.slice(0, 3).map((s, idx) => (
-          <div key={idx} className="panel-subtle" style={{ backgroundColor: 'var(--bg-panel-subtle)', padding: '12px' }}>
+          <div
+            key={idx}
+            className="panel-subtle"
+            style={{
+              backgroundColor: 'var(--bg-panel-subtle)',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-card, 12px)',
+              padding: '12px',
+              transition: 'background-color 0.2s ease, border-color 0.2s ease'
+            }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 800 }}>{s.icon} {s.name.split('(')[0]}</span>
+              <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-main)' }}>{s.icon} {s.name.split('(')[0]}</span>
               <span style={{ fontSize: '15px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: s.color }}>{s.share}%</span>
             </div>
             <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, lineHeight: 1.4 }}>

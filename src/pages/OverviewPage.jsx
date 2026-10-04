@@ -59,28 +59,29 @@ export default function OverviewPage({ onNavigate }) {
     <div>
       {/* Hero Banner with Modern Elevation */}
       <div className="panel" style={{
-        backgroundColor: 'var(--bg-panel)',
+        background: 'var(--color-surface)',
         marginBottom: '20px',
-        border: '1px solid var(--border-color)',
-        borderRadius: 'var(--radius-panel)'
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-panel)',
+        boxShadow: 'var(--shadow-sm)'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '18px' }}>
-          <div style={{ maxWidth: '750px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', flexWrap: 'wrap' }}>
-              <span className="tag" style={{ backgroundColor: 'var(--accent-primary)', color: '#ffffff', border: 'none' }}>
-                {t('overview.networkTag', '⚡ CPCB Live Telemetry Network')}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
+          <div style={{ maxWidth: '780px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+              <span className="tag" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-border)', fontWeight: 600 }}>
+                {t('overview.networkTag', 'CPCB Live Telemetry Network')}
               </span>
               <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                 {language === 'hi' ? 'अपडेट: ' : 'Updated '} {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
               </span>
               <span className="tag" style={{
-                backgroundColor: selectedStation.pblHeight < 400 ? 'var(--aqi-unhealthy-bg)' : 'var(--bg-panel-subtle)',
-                color: selectedStation.pblHeight < 400 ? 'var(--aqi-unhealthy-text)' : 'inherit',
+                backgroundColor: selectedStation.pblHeight < 400 ? 'var(--aqi-unhealthy-bg)' : 'var(--bg-panel)',
+                color: selectedStation.pblHeight < 400 ? 'var(--aqi-unhealthy-text)' : 'var(--text-muted)',
                 borderColor: selectedStation.pblHeight < 400 ? 'var(--aqi-unhealthy-border)' : 'var(--border-color)',
                 fontSize: '11px'
               }}>
                 {selectedStation.pblHeight < 400 
-                  ? `${t('overview.nocturnalCap', '⚠️ Nocturnal Inversion Cap')}: ${selectedStation.pblHeight}m` 
+                  ? `${t('overview.nocturnalCap', 'Nocturnal Inversion Cap')}: ${selectedStation.pblHeight}m` 
                   : `${t('overview.boundaryLayer', 'Boundary Layer')}: ${selectedStation.pblHeight}m`}
               </span>
             </div>
@@ -94,27 +95,27 @@ export default function OverviewPage({ onNavigate }) {
 
           {/* Quick Active Station Snapshot */}
           <div style={{
-            backgroundColor: 'var(--bg-panel-subtle)',
+            backgroundColor: 'var(--bg-panel)',
             border: '1px solid var(--border-color)',
             borderRadius: 'var(--radius-card)',
-            padding: '16px 20px',
+            padding: '16px 22px',
             textAlign: 'right',
             boxShadow: 'var(--shadow-sm)'
           }}>
-            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>
               {t('overview.activeLocality', 'Active Locality')}
             </div>
             <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-main)', marginTop: '2px' }}>
               {selectedStation.shortName}
             </div>
             <div style={{
-              fontSize: '13.5px',
+              fontSize: '13px',
               fontWeight: 800,
               fontFamily: 'var(--font-mono)',
               marginTop: '4px',
               color: selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-text)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-text)' : 'var(--aqi-good-text)'
             }}>
-              {t('common.aqi', 'AQI')} {selectedStation.aqi} — {language === 'hi' && catMeta.labelHi ? catMeta.labelHi.split(' ')[0] : selectedStation.category}
+              {t('common.aqi', 'AQI')} {selectedStation.aqi}: {language === 'hi' && catMeta.labelHi ? catMeta.labelHi.split(' ')[0] : selectedStation.category}
             </div>
           </div>
         </div>
@@ -124,16 +125,17 @@ export default function OverviewPage({ onNavigate }) {
       <div className="panel-subtle" style={{
         backgroundColor: 'var(--bg-panel)',
         marginBottom: '20px',
-        padding: '14px 20px',
+        padding: '16px 22px',
         border: '1px solid var(--border-color)',
-        borderRadius: 'var(--radius-card)'
+        borderRadius: 'var(--radius-card)',
+        boxShadow: 'var(--shadow-xs)'
       }}>
         <div className="grid-3" style={{ gap: '16px', alignItems: 'center' }}>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
               {t('overview.ncrAverage', 'Delhi NCR Aggregate Mean AQI')}
             </div>
-            <div style={{ fontSize: '22px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-main)', marginTop: '2px' }}>
+            <div style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-main)', marginTop: '2px' }}>
               {averageAQI} <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>
                 {language === 'hi' ? `(${stations.length} सक्रिय स्टेशनों में)` : `across ${stations.length} active stations`}
               </span>
@@ -141,20 +143,20 @@ export default function OverviewPage({ onNavigate }) {
           </div>
 
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
               {t('overview.mostPolluted', 'Highest Hotspot Locality')}
             </div>
             <div style={{ fontSize: '16px', fontWeight: 800, color: 'var(--aqi-unhealthy-text)', marginTop: '2px' }}>
-              🔥 {worstStation.shortName} ({t('common.aqi', 'AQI')} {worstStation.aqi})
+              {worstStation.shortName} ({t('common.aqi', 'AQI')} {worstStation.aqi})
             </div>
           </div>
 
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
               {t('overview.cleanestArea', 'Relatively Cleanest Air')}
             </div>
             <div style={{ fontSize: '16px', fontWeight: 800, color: 'var(--aqi-good-text)', marginTop: '2px' }}>
-              🌿 {cleanestStation.shortName} ({t('common.aqi', 'AQI')} {cleanestStation.aqi})
+              {cleanestStation.shortName} ({t('common.aqi', 'AQI')} {cleanestStation.aqi})
             </div>
           </div>
         </div>
@@ -163,8 +165,8 @@ export default function OverviewPage({ onNavigate }) {
       {/* Pinned Favorites Quick Navigation Bar */}
       {favoriteStations.length > 0 && (
         <div style={{ marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
-            {t('overview.pinnedStations', '⭐ Pinned Localities:')}
+          <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
+            {t('overview.pinnedStations', 'Pinned Localities:')}
           </span>
           {favoriteStations.map(st => {
             const isSelected = st.id === selectedStation.id;
@@ -174,13 +176,14 @@ export default function OverviewPage({ onNavigate }) {
                 onClick={() => setSelectedStation(st)}
                 className="btn btn-outline btn-sm"
                 style={{
-                  fontSize: '11.5px',
+                  fontSize: '12px',
                   padding: '5px 12px',
+                  borderRadius: 'var(--radius-full)',
                   backgroundColor: isSelected ? 'var(--accent-primary)' : 'var(--bg-panel)',
                   color: isSelected ? '#ffffff' : 'var(--text-main)',
                   borderColor: isSelected ? 'var(--accent-primary)' : 'var(--border-color)',
                   fontWeight: isSelected ? 700 : 500,
-                  boxShadow: 'var(--shadow-sm)'
+                  boxShadow: 'var(--shadow-xs)'
                 }}
               >
                 {st.shortName} ({t('common.aqi', 'AQI')} {st.aqi})
@@ -190,14 +193,14 @@ export default function OverviewPage({ onNavigate }) {
         </div>
       )}
 
-      {/* Safety Alert Directive Banner — NO BLANK BOX, crystal clear high-contrast action bar */}
+      {/* Safety Alert Directive Banner — High-contrast, polished action bar */}
       <div style={{
         backgroundColor: selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-bg)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-bg)' : 'var(--aqi-good-bg)',
-        border: `2px solid ${selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-border)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-border)' : 'var(--aqi-good-border)'}`,
+        border: `1px solid ${selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-border)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-border)' : 'var(--aqi-good-border)'}`,
         color: selectedStation.aqi > 300 ? 'var(--aqi-unhealthy-text)' : selectedStation.aqi > 200 ? 'var(--aqi-poor-text)' : 'var(--aqi-good-text)',
         borderRadius: 'var(--radius-panel)',
-        padding: '18px 24px',
-        marginBottom: '22px',
+        padding: '20px 24px',
+        marginBottom: '24px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -205,22 +208,22 @@ export default function OverviewPage({ onNavigate }) {
         gap: '16px',
         boxShadow: 'var(--shadow-sm)'
       }}>
-        <div style={{ maxWidth: '650px' }}>
+        <div style={{ maxWidth: '680px' }}>
           <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            {language === 'hi' ? '⚡ वास्तविक समय नागरिक सुरक्षा निर्देश' : '⚡ REAL-TIME CITIZEN SAFETY DIRECTIVE'}
+            {language === 'hi' ? 'वास्तविक समय नागरिक सुरक्षा निर्देश' : 'REAL-TIME CITIZEN SAFETY DIRECTIVE'}
           </div>
-          <div style={{ fontSize: '19px', fontWeight: 800, marginTop: '3px', lineHeight: 1.3 }}>
+          <div style={{ fontSize: '18px', fontWeight: 800, marginTop: '4px', lineHeight: 1.3 }}>
             {language === 'hi'
               ? (selectedStation.aqi > 300
-                  ? '🚨 आज हवा विषाक्त और खतरनाक है — खिड़कियां-दरवाजे बंद रखें!'
+                  ? 'आज हवा विषाक्त और खतरनाक है: खिड़कियां-दरवाजे बंद रखें!'
                   : selectedStation.aqi > 200
-                    ? '⚠️ घना स्मॉग है — बाहर N95 मास्क अनिवार्य है'
-                    : '🟢 सामान्य गतिविधियों के लिए हवा स्वीकार्य है')
+                    ? 'घना स्मॉग है: बाहर N95 मास्क अनिवार्य है'
+                    : 'सामान्य गतिविधियों के लिए हवा स्वीकार्य है')
               : (selectedStation.aqi > 300
-                  ? '🚨 AIR IS TOXIC & DANGEROUS TODAY — STAY INDOORS WITH DOORS SEALED!'
+                  ? 'AIR IS TOXIC & DANGEROUS TODAY: STAY INDOORS WITH DOORS SEALED!'
                   : selectedStation.aqi > 200
-                    ? '⚠️ SMOG IS HEAVY — MUST WEAR N95 MASK OUTDOORS'
-                    : '🟢 AIR IS ACCEPTABLE FOR NORMAL ACTIVITY')}
+                    ? 'SMOG IS HEAVY: MUST WEAR N95 MASK OUTDOORS'
+                    : 'AIR IS ACCEPTABLE FOR NORMAL ACTIVITY')}
           </div>
           <div style={{ fontSize: '13px', marginTop: '4px', opacity: 0.95 }}>
             {language === 'hi' && catMeta.laymanHi ? catMeta.laymanHi : catMeta.layman}
@@ -236,14 +239,14 @@ export default function OverviewPage({ onNavigate }) {
             style={{
               borderColor: 'currentColor',
               color: 'currentColor',
-              fontSize: '11.5px',
+              fontSize: '12px',
               padding: '6px 12px',
               fontWeight: 700,
-              backgroundColor: 'rgba(255, 255, 255, 0.4)'
+              backgroundColor: 'var(--bg-glass)'
             }}
             title={language === 'hi' ? 'आपातकालीन सलाह आवाज़ में सुनें' : 'Speak emergency advisory through Web Speech synthesis'}
           >
-            {language === 'hi' ? '📢 आवाज़ चेतावनी' : '📢 Voice Alert'}
+            {language === 'hi' ? 'आवाज़ चेतावनी' : 'Voice Alert'}
           </button>
 
           {/* Official Audit Certificate Modal Button */}
@@ -253,14 +256,14 @@ export default function OverviewPage({ onNavigate }) {
             style={{
               borderColor: 'currentColor',
               color: 'currentColor',
-              fontSize: '11.5px',
+              fontSize: '12px',
               padding: '6px 12px',
               fontWeight: 700,
-              backgroundColor: 'rgba(255, 255, 255, 0.4)'
+              backgroundColor: 'var(--bg-glass)'
             }}
             title={language === 'hi' ? 'आधिकारिक पर्यावरण ऑडिट रिपोर्ट तैयार करें' : 'Generate print-ready official environmental telemetry audit'}
           >
-            {language === 'hi' ? '📜 ऑडिट रिपोर्ट' : '📜 Audit Report'}
+            {language === 'hi' ? 'ऑडिट रिपोर्ट' : 'Audit Report'}
           </button>
 
           {/* Health Advice Button */}
@@ -268,14 +271,14 @@ export default function OverviewPage({ onNavigate }) {
             onClick={() => onNavigate('ai-advisor')}
             className="btn btn-sm"
             style={{
-              backgroundColor: selectedStation.aqi > 300 ? '#7a1d1d' : selectedStation.aqi > 200 ? '#7c3514' : '#1e3a8a',
+              backgroundColor: selectedStation.aqi > 300 ? '#7a1d1d' : selectedStation.aqi > 200 ? '#7c3514' : 'var(--accent-primary)',
               color: '#ffffff',
               border: 'none',
-              fontWeight: 800,
-              fontSize: '12.5px',
-              padding: '8px 16px',
-              borderRadius: 'var(--radius-sm)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+              fontWeight: 700,
+              fontSize: '12px',
+              padding: '7px 14px',
+              borderRadius: 'var(--radius-btn)',
+              boxShadow: 'var(--shadow-sm)',
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
@@ -283,7 +286,6 @@ export default function OverviewPage({ onNavigate }) {
             }}
           >
             <span>{language === 'hi' ? 'व्यक्तिगत स्वास्थ्य सलाह' : 'Personal Health Advice'}</span>
-            <span>➔</span>
           </button>
         </div>
       </div>
@@ -324,17 +326,23 @@ export default function OverviewPage({ onNavigate }) {
           {language === 'hi' ? 'वायुमंडलीय इंटेलिजेंस मॉड्यूल देखें:' : 'Explore Atmospheric Intelligence Modules:'}
         </div>
 
-        <div className="grid-3" style={{ gap: '16px' }}>
+        <div className="grid-3" style={{ gap: '18px' }}>
           <div
             className="panel-subtle"
-            style={{ backgroundColor: 'var(--bg-panel)', cursor: 'pointer', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-card)' }}
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              cursor: 'pointer',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: 'var(--shadow-xs)'
+            }}
             onClick={() => onNavigate('ai-advisor')}
           >
-            <div style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '4px' }}>
-              🤖 {language === 'hi' ? 'AeroAI स्वास्थ्य सलाहकार' : 'AeroAI Health Advisor'}
+            <div style={{ fontSize: '11.5px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '6px', letterSpacing: '0.04em' }}>
+              {language === 'hi' ? 'AeroAI स्वास्थ्य सलाहकार' : 'AeroAI Health Advisor'}
             </div>
-            <h4 style={{ marginBottom: '6px' }}>{language === 'hi' ? 'बायो-डोसिमेट्री व सुरक्षित समय' : 'Bio-Dosimetry & Safe Windows'}</h4>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: 0 }}>
+            <h4 style={{ marginBottom: '6px', fontSize: '16px' }}>{language === 'hi' ? 'बायो-डोसिमेट्री व सुरक्षित समय' : 'Bio-Dosimetry & Safe Windows'}</h4>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.55, marginBottom: 0 }}>
               {language === 'hi'
                 ? 'बच्चों और दमा रोगियों के लिए अनुकूलित आउटडोर समय, हेपा प्यूरीफायर क्षमता गणना और स्वास्थ्य सुरक्षा स्कोर।'
                 : 'Dynamic outdoor safety windows, HEPA air purifier CADR sizing, and custom profiles for children and asthmatics.'}
@@ -343,14 +351,20 @@ export default function OverviewPage({ onNavigate }) {
 
           <div
             className="panel-subtle"
-            style={{ backgroundColor: 'var(--bg-panel)', cursor: 'pointer', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-card)' }}
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              cursor: 'pointer',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: 'var(--shadow-xs)'
+            }}
             onClick={() => onNavigate('route-planner')}
           >
-            <div style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '4px' }}>
-              🧭 {language === 'hi' ? 'सुरक्षित यात्रा योजना' : 'Commute Exposure Planner'}
+            <div style={{ fontSize: '11.5px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '6px', letterSpacing: '0.04em' }}>
+              {language === 'hi' ? 'सुरक्षित यात्रा योजना' : 'Commute Exposure Planner'}
             </div>
-            <h4 style={{ marginBottom: '6px' }}>{language === 'hi' ? 'दिल्ली रूट व यात्रा जोखिम' : 'Delhi Route & Transit Dose'}</h4>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: 0 }}>
+            <h4 style={{ marginBottom: '6px', fontSize: '16px' }}>{language === 'hi' ? 'दिल्ली रूट व यात्रा जोखिम' : 'Delhi Route & Transit Dose'}</h4>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.55, marginBottom: 0 }}>
               {language === 'hi'
                 ? 'भीड़-भाड़ के समय फेफड़ों में जाने वाले जहरीले कणों को कम करने के लिए मेट्रो, कैब और बाइक मार्गों की तुलना करें।'
                 : 'Compare Metro vs AC Cab vs Bike routes to minimize inhaled toxic micro-particulates during rush hours.'}
@@ -359,14 +373,20 @@ export default function OverviewPage({ onNavigate }) {
 
           <div
             className="panel-subtle"
-            style={{ backgroundColor: 'var(--bg-panel)', cursor: 'pointer', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-card)' }}
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              cursor: 'pointer',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: 'var(--shadow-xs)'
+            }}
             onClick={() => onNavigate('forecast')}
           >
-            <div style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '4px' }}>
-              ⏳ {language === 'hi' ? '72-घंटे पूर्वानुमान व नीतियां' : '72-Hour Outlook & Policy'}
+            <div style={{ fontSize: '11.5px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '6px', letterSpacing: '0.04em' }}>
+              {language === 'hi' ? '72-घंटे पूर्वानुमान व नीतियां' : '72-Hour Outlook & Policy'}
             </div>
-            <h4 style={{ marginBottom: '6px' }}>{language === 'hi' ? 'WRF-Chem प्रति घंटा सिमुलेटर' : 'WRF-Chem Hourly Policy Simulator'}</h4>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: 0 }}>
+            <h4 style={{ marginBottom: '6px', fontSize: '16px' }}>{language === 'hi' ? 'WRF-Chem प्रति घंटा सिमुलेटर' : 'WRF-Chem Hourly Policy Simulator'}</h4>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.55, marginBottom: 0 }}>
               {language === 'hi'
                 ? 'ऑड-ईवन, पराली दहन रोकथाम और बारिश के प्रभाव का 72-घंटे के प्रदूषण प्रक्षेपवक्र पर सिमुलेशन करें।'
                 : 'Simulate Odd-Even, stubble burning crackdowns, and precipitation washout effects on 72h trajectories.'}
@@ -375,14 +395,20 @@ export default function OverviewPage({ onNavigate }) {
 
           <div
             className="panel-subtle"
-            style={{ backgroundColor: 'var(--bg-panel)', cursor: 'pointer', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-card)' }}
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              cursor: 'pointer',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: 'var(--shadow-xs)'
+            }}
             onClick={() => onNavigate('inversion')}
           >
-            <div style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '4px' }}>
-              🧪 {language === 'hi' ? 'वायुमंडलीय भौतिकी' : 'Atmospheric Physics'}
+            <div style={{ fontSize: '11.5px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '6px', letterSpacing: '0.04em' }}>
+              {language === 'hi' ? 'वायुमंडलीय भौतिकी' : 'Atmospheric Physics'}
             </div>
-            <h4 style={{ marginBottom: '6px' }}>{language === 'hi' ? '2D सीमा परत सिमुलेशन' : '2D Boundary Layer Simulation'}</h4>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: 0 }}>
+            <h4 style={{ marginBottom: '6px', fontSize: '16px' }}>{language === 'hi' ? '2D सीमा परत सिमुलेशन' : '2D Boundary Layer Simulation'}</h4>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.55, marginBottom: 0 }}>
               {language === 'hi'
                 ? 'जमीन पर स्मॉग कैद होने, धूप रुकने और एंटी-स्मॉग गन के प्रभाव का 2D भौतिकी क्रॉस-सेक्शन सिमुलेशन।'
                 : 'Interactive 2D physics cross-section of ground smog entrapment, solar suppression feedback, and water mist guns.'}
@@ -391,14 +417,20 @@ export default function OverviewPage({ onNavigate }) {
 
           <div
             className="panel-subtle"
-            style={{ backgroundColor: 'var(--bg-panel)', cursor: 'pointer', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-card)' }}
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              cursor: 'pointer',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: 'var(--shadow-xs)'
+            }}
             onClick={() => onNavigate('layman')}
           >
-            <div style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '4px' }}>
-              📖 {language === 'hi' ? 'प्रदूषण की आसान गाइड' : 'Air Simplified (Bilingual)'}
+            <div style={{ fontSize: '11.5px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '6px', letterSpacing: '0.04em' }}>
+              {language === 'hi' ? 'प्रदूषण की आसान गाइड' : 'Air Simplified (Bilingual)'}
             </div>
-            <h4 style={{ marginBottom: '6px' }}>{language === 'hi' ? 'सरल भाषा व मास्क विज़ार्ड' : 'Easy Reading & Mask Wizard'}</h4>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: 0 }}>
+            <h4 style={{ marginBottom: '6px', fontSize: '16px' }}>{language === 'hi' ? 'सरल भाषा व मास्क विज़ार्ड' : 'Easy Reading & Mask Wizard'}</h4>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.55, marginBottom: 0 }}>
               {language === 'hi'
                 ? 'हिंदी व अंग्रेजी में स्पष्टीकरण, मास्क फिल्ट्रेशन दक्षता परीक्षक, लक्षण गाइड और भ्रांतियों का निवारण।'
                 : 'English & Hindi explanations, mask filtration efficiency checker, symptom diagnostics, and myth busters.'}
@@ -407,14 +439,20 @@ export default function OverviewPage({ onNavigate }) {
 
           <div
             className="panel-subtle"
-            style={{ backgroundColor: 'var(--bg-panel)', cursor: 'pointer', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-card)' }}
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              cursor: 'pointer',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: 'var(--shadow-xs)'
+            }}
             onClick={() => onNavigate('blockchain')}
           >
-            <div style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '4px' }}>
-              ⛓️ {language === 'hi' ? 'AeroLedger सुरक्षा' : 'AeroLedger Security'}
+            <div style={{ fontSize: '11.5px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-primary)', marginBottom: '6px', letterSpacing: '0.04em' }}>
+              {language === 'hi' ? 'AeroLedger सुरक्षा' : 'AeroLedger Security'}
             </div>
-            <h4 style={{ marginBottom: '6px' }}>{language === 'hi' ? 'क्रिप्टोग्राफिक प्रूफ व टेस्ट' : 'Cryptographic Proofs & Tamper Test'}</h4>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: 0 }}>
+            <h4 style={{ marginBottom: '6px', fontSize: '16px' }}>{language === 'hi' ? 'क्रिप्टोग्राफिक प्रूफ व टेस्ट' : 'Cryptographic Proofs & Tamper Test'}</h4>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.55, marginBottom: 0 }}>
               {language === 'hi'
                 ? 'सेंसर में छेड़छाड़ के हमलों का परीक्षण करें और दिल्ली के सभी 16 नोड्स के मर्कल रूट को सत्यापित करें।'
                 : 'Simulate sensor forgery attacks in the cryptographic sandbox and verify Merkle roots for all 16 Delhi nodes.'}

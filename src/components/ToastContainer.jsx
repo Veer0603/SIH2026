@@ -43,15 +43,17 @@ export default function ToastContainer() {
               pointerEvents: 'auto',
               backgroundColor: bg,
               color: color,
-              border: `2px solid ${border}`,
-              padding: '10px 14px',
+              border: `1px solid ${border}`,
+              borderRadius: 'var(--radius-card, 12px)',
+              backdropFilter: 'blur(12px)',
+              padding: '12px 16px',
               fontSize: '13px',
               fontWeight: 600,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: '12px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)',
+              boxShadow: 'var(--shadow-lg)',
               animation: 'slideInRight 0.2s ease forwards'
             }}
           >

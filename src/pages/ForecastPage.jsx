@@ -22,22 +22,28 @@ export default function ForecastPage() {
   return (
     <div>
       {/* Header Banner */}
-      <div className="panel" style={{ backgroundColor: 'var(--bg-panel-subtle)', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div className="panel" style={{
+        background: 'var(--color-surface)',
+        marginBottom: '20px',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-panel)',
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
           <div>
-            <div className="tag" style={{ backgroundColor: 'var(--accent-primary)', color: '#ffffff', marginBottom: '6px' }}>
+            <div className="tag" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-border)', marginBottom: '8px', fontWeight: 600 }}>
               {t('forecast.tag', '72h Coupled WRF-Chem Outlook')}
             </div>
-            <h1 style={{ fontSize: '26px', fontWeight: 800 }}>
+            <h1 style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-main)', marginBottom: '4px' }}>
               {t('forecast.title', '72-Hour Air Quality & Weather Ceiling Forecast')}
             </h1>
             <p className="muted" style={{ margin: 0 }}>
-              {t('forecast.subtitle', 'Hourly trajectory of photochemical smog, boundary layer lids, and stubble fire impacts for')} {selectedStation.name}.
+              {t('forecast.subtitle', 'Hourly trajectory of photochemical smog, boundary layer lids, and stubble fire impacts for')} <strong>{selectedStation.name}</strong>.
             </p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
               {t('common.station', 'Station')}:
             </span>
             <select
@@ -47,7 +53,7 @@ export default function ForecastPage() {
                 const found = stationList.find(s => s.id === e.target.value);
                 if (found) setSelectedStation(found);
               }}
-              style={{ padding: '6px 10px', fontSize: '12px', fontWeight: 600 }}
+              style={{ padding: '7px 12px', fontSize: '12.5px', fontWeight: 600, borderRadius: 'var(--radius-btn)' }}
             >
               {stationList.map(s => (
                 <option key={s.id} value={s.id}>
@@ -92,7 +98,7 @@ export default function ForecastPage() {
                   backgroundColor: grapEarlyTrigger.urgency === 'CRITICAL_EMERGENCY' ? '#ef4444' : '#f97316',
                   color: '#ffffff'
                 }}>
-                  {language === 'hi' ? '⚡ CAQM अग्रिम GRAP चेतावनी' : '⚡ CAQM PROACTIVE GRAP TRIGGER'}
+                  {language === 'hi' ? 'CAQM अग्रिम GRAP चेतावनी' : 'CAQM PROACTIVE GRAP TRIGGER'}
                 </span>
                 <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-main)' }}>
                   {grapEarlyTrigger.triggerStage}
@@ -130,7 +136,7 @@ export default function ForecastPage() {
 
           <div style={{ borderTop: '1px dashed var(--border-color)', paddingTop: '10px', marginTop: '10px' }}>
             <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '6px', color: 'var(--text-main)' }}>
-              {language === 'hi' ? '📋 अग्रिम वैधानिक आपातकालीन निर्देश (24-48 घंटे पूर्व)' : '📋 Mandated Early Policy Interventions (Triggered 24-48h Prior to Smog Clamp):'}
+              {language === 'hi' ? 'अग्रिम वैधानिक आपातकालीन निर्देश (24-48 घंटे पूर्व):' : 'Mandated Early Policy Interventions (Triggered 24-48h Prior to Smog Clamp):'}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '8px' }}>
               {grapEarlyTrigger.recommendedInterventions.map((action, idx) => (

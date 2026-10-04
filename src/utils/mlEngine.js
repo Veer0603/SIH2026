@@ -423,29 +423,48 @@ export function findSafeOutdoorWindows(station, profile = 'general') {
 }
 
 /**
- * Calculates Room Air Purifier CADR & HEPA Requirements
+ * Calculates Room Air Purifier CADR & HEPA Requirements dynamically
+ * incorporating room floor area, ceiling height, volume mixing dynamics,
+ * and ambient particulate mass loading.
  */
 export function calculatePurifierRequirements(roomSqFt = 200, ceilingHeightFt = 9, ambientPM25 = 200) {
   const roomVolumeCuFt = roomSqFt * ceilingHeightFt;
   const roomVolumeCuM = roomVolumeCuFt * 0.0283168;
 
-  // For severely polluted areas, aim for 5 Air Changes per Hour (ACH)
+  // Recommended clean air delivery rate for severe Delhi NCR pollution: 5 Air Changes per Hour (ACH)
   const requiredCADR_m3h = Math.round(roomVolumeCuM * 5);
   const requiredCADR_CFM = Math.round(requiredCADR_m3h * 0.588578);
 
-  // Minutes needed to achieve 80% reduction
-  const cleanupTimeMinutes = Math.round(Math.max(15, 60 / 5 * 1.6));
+  // Dynamic 80% Smog Reduction Time:
+  // First-order exponential clearance: t = -ln(0.20) / ACH * 60.
+  // Larger spaces and higher ceiling heights have spatial dispersion gradients,
+  // boundary layer dead zones, and vertical thermal stratification that increase turnover time.
+  const roomSizeFactor = Math.pow(roomSqFt / 200, 0.25);
+  const heightFactor = Math.pow(ceilingHeightFt / 9, 0.35);
+  const cleanupTimeMinutes = Math.round(Math.min(45, Math.max(12, 19.3 * roomSizeFactor * heightFactor)));
 
-  // Estimated HEPA filter life in months given current ambient PM2.5
-  let filterLifeMonths = 6;
-  if (ambientPM25 > 300) filterLifeMonths = 2.5;
-  else if (ambientPM25 > 200) filterLifeMonths = 4;
-  else if (ambientPM25 > 100) filterLifeMonths = 6;
-  else filterLifeMonths = 10;
+  // Dynamic HEPA Filter Lifespan:
+  // A HEPA filter has a finite particulate dust-holding capacity (grams of PM2.5).
+  // In larger rooms with higher ceilings, the purifier moves proportionally larger total air volume
+  // (CADR = 5 x Volume), capturing significantly more cumulative daily particulate ingress from outdoor infiltration.
+  const safePM = Math.max(30, Number(ambientPM25) || 200);
+  let baseMonths = 5.5;
+  if (safePM > 350) baseMonths = 3.0;
+  else if (safePM > 250) baseMonths = 4.0;
+  else if (safePM > 150) baseMonths = 5.5;
+  else if (safePM > 80) baseMonths = 7.5;
+  else baseMonths = 10.0;
+
+  // Volume particulate loading scale relative to reference room (200 sq ft x 9 ft = ~51 m³)
+  const volumeLoadFactor = Math.pow(51 / Math.max(15, roomVolumeCuM), 0.30);
+  const rawLife = baseMonths * volumeLoadFactor;
+  const filterLifeMonths = parseFloat(Math.min(12, Math.max(1.5, rawLife)).toFixed(1));
 
   return {
     roomSqFt,
+    ceilingHeightFt,
     roomVolumeCuM: Math.round(roomVolumeCuM),
+    roomVolumeCuFt: Math.round(roomVolumeCuFt),
     requiredCADR_m3h,
     requiredCADR_CFM,
     cleanupTimeMinutes,

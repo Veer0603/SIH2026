@@ -528,9 +528,9 @@ export default function StationMap({ onOpenAddModal }) {
 
         const userMarker = L.circleMarker([latitude, longitude], {
           radius: 9,
-          color: '#2563eb',
-          fillColor: '#38bdf8',
-          fillOpacity: 0.9,
+          color: 'var(--color-primary)',
+          fillColor: 'var(--color-primary-soft)',
+          fillOpacity: 0.95,
           weight: 3
         }).addTo(map);
 
@@ -741,8 +741,8 @@ export default function StationMap({ onOpenAddModal }) {
               fontSize: '11px',
               fontWeight: 800,
               padding: '2px 6px',
-              borderRadius: '4px',
-              backgroundColor: selectedStation.aqi > 300 ? '#7a1d1d' : selectedStation.aqi > 200 ? '#7c3514' : '#1e3a8a',
+              borderRadius: 'var(--radius-sm, 6px)',
+              backgroundColor: selectedStation.aqi > 300 ? 'var(--cpcb-severe)' : selectedStation.aqi > 200 ? 'var(--cpcb-poor)' : 'var(--accent-primary)',
               color: '#ffffff'
             }}>
               AQI {selectedStation.aqi}

@@ -104,13 +104,19 @@ export default function RoutePlannerPage() {
   return (
     <div>
       {/* Header Banner */}
-      <div className="panel" style={{ backgroundColor: 'var(--bg-panel-subtle)', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div className="panel" style={{
+        background: 'var(--color-surface)',
+        marginBottom: '20px',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-panel)',
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
           <div>
-            <div className="tag" style={{ backgroundColor: 'var(--accent-primary)', color: '#ffffff', marginBottom: '6px' }}>
+            <div className="tag" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-border)', marginBottom: '8px', fontWeight: 600 }}>
               {t('route.tag', 'Clean Air Transit Optimizer')}
             </div>
-            <h1 style={{ fontSize: '26px', fontWeight: 800 }}>
+            <h1 style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-main)', marginBottom: '4px' }}>
               {t('route.title', 'Delhi NCR Commute Air Exposure Planner')}
             </h1>
             <p className="muted" style={{ margin: 0 }}>
@@ -118,8 +124,8 @@ export default function RoutePlannerPage() {
             </p>
           </div>
 
-          <button onClick={handleExportRoute} className="btn btn-outline btn-sm">
-            {language === 'hi' ? '📥 यात्रा योजना डाउनलोड करें' : '📥 Save Route Plan'}
+          <button onClick={handleExportRoute} className="btn btn-outline btn-sm" style={{ borderRadius: 'var(--radius-btn)', fontWeight: 600 }}>
+            {language === 'hi' ? 'यात्रा योजना डाउनलोड करें' : 'Save Route Plan'}
           </button>
         </div>
       </div>
@@ -180,9 +186,9 @@ export default function RoutePlannerPage() {
               </label>
               <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
                 {[
-                  { id: 'morning', label: language === 'hi' ? '🌅 सुबह (08:00 - भारी स्मॉग)' : '🌅 Morning (08:00 - Heavy Smog)' },
-                  { id: 'afternoon', label: language === 'hi' ? '☀️ दोपहर (14:00 - अपेक्षाकृत सुरक्षित)' : '☀️ Afternoon (14:00 - Safer)' },
-                  { id: 'evening', label: language === 'hi' ? '🌆 शाम (19:00 - स्मॉग ट्रैपिंग)' : '🌆 Evening (19:00 - Smog Trap)' }
+                  { id: 'morning', label: language === 'hi' ? 'सुबह (08:00 : भारी स्मॉग)' : 'Morning (08:00 : Heavy Smog)' },
+                  { id: 'afternoon', label: language === 'hi' ? 'दोपहर (14:00 : अपेक्षाकृत सुरक्षित)' : 'Afternoon (14:00 : Safer)' },
+                  { id: 'evening', label: language === 'hi' ? 'शाम (19:00 : स्मॉग ट्रैपिंग)' : 'Evening (19:00 : Smog Trap)' }
                 ].map(w => (
                   <button
                     key={w.id}
@@ -275,10 +281,10 @@ export default function RoutePlannerPage() {
               </span>
               <span style={{ fontSize: '14px', fontWeight: 600 }}>{language === 'hi' ? 'माइक्रोग्राम (µg)' : 'micrograms (µg)'}</span>
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 700, marginTop: '6px' }}>
+            <div style={{ fontSize: '13px', fontWeight: 600, marginTop: '6px' }}>
               {language === 'hi' 
-                ? `🚬 सिगरेट समतुल्य नुकसान: इस एकल यात्रा के दौरान ~${commuteCigaretteEquiv} सिगरेट पीने के बराबर धुआं अंदर लिया।`
-                : `🚬 Commute lung impact equivalent: smoking ~${commuteCigaretteEquiv} cigarettes during this single trip.`}
+                ? `सिगरेट समतुल्य नुकसान: इस एकल यात्रा के दौरान ~${commuteCigaretteEquiv} सिगरेट पीने के बराबर धुआं अंदर लिया।`
+                : `Commute lung impact equivalent: smoking ~${commuteCigaretteEquiv} cigarettes during this single trip.`}
             </div>
           </div>
 

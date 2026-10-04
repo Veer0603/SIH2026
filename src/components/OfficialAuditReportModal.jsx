@@ -165,8 +165,9 @@ ${grap.actions.map(a => `- ${a}`).join('\n')}
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(10, 15, 25, 0.78)',
-        backdropFilter: 'blur(6px)',
+        backgroundColor: 'rgba(19, 27, 35, 0.75)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -180,7 +181,7 @@ ${grap.actions.map(a => `- ${a}`).join('\n')}
         style={{
           backgroundColor: 'var(--bg-panel)',
           border: '1px solid var(--border-color)',
-          borderRadius: 'var(--radius-panel, 14px)',
+          borderRadius: 'var(--radius-panel, 16px)',
           width: '100%',
           maxWidth: '840px',
           maxHeight: '90vh',

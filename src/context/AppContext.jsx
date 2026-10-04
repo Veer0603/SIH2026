@@ -75,7 +75,7 @@ export function AppProvider({ children }) {
     }
   });
 
-  // 4. Theme ('light' | 'dark')
+  // 4. Theme ('light' | 'dark') — Dark mode is the primary AERIS experience
   const [theme, setTheme] = useState(() => {
     try {
       const saved = localStorage.getItem('aeris_theme');

@@ -135,19 +135,20 @@ function MainApp() {
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 9980,
-            backgroundColor: 'var(--bg-panel)',
-            border: '2px solid var(--accent-primary)',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
-            borderRadius: '30px',
-            padding: '8px 18px',
+            backgroundColor: 'var(--bg-glass)',
+            border: '1px solid var(--border-focus)',
+            boxShadow: 'var(--shadow-lg), var(--shadow-glow)',
+            borderRadius: 'var(--radius-full)',
+            padding: '8px 20px',
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
-            backdropFilter: 'blur(8px)',
-            animation: 'fadeInUp 0.25s ease'
+            gap: '14px',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            animation: 'fadeInUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 800 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 700, color: 'var(--text-main)' }}>
             <span style={{ fontSize: '16px' }}>⚖️</span>
             <span>
               {language === 'hi'
@@ -155,18 +156,18 @@ function MainApp() {
                 : `${comparisonList.length}/4 Stations Selected`}
             </span>
           </div>
-          <div style={{ display: 'flex', gap: '6px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <button
               onClick={() => setIsCompareModalOpen(true)}
               className="btn btn-sm"
-              style={{ fontSize: '12px', padding: '4px 14px', borderRadius: '20px', fontWeight: 700 }}
+              style={{ fontSize: '12px', padding: '5px 14px', borderRadius: 'var(--radius-full)', fontWeight: 700 }}
             >
               {language === 'hi' ? 'तुलना देखें' : 'View Comparison'}
             </button>
             <button
               onClick={clearComparison}
               className="btn btn-outline btn-sm"
-              style={{ fontSize: '12px', padding: '4px 8px', borderRadius: '20px' }}
+              style={{ fontSize: '12px', padding: '5px 9px', borderRadius: 'var(--radius-full)' }}
               title={language === 'hi' ? 'सूची साफ़ करें' : 'Clear selection'}
             >
               ✕

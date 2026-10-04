@@ -26,31 +26,31 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
   const [activeCategoryFilter, setActiveCategoryFilter] = useState('all'); // 'all' | 'live' | 'citizen' | 'science' | 'trust'
 
   const categories = [
-    { id: 'all', label: isHindi ? 'सभी मॉड्यूल' : 'All Modules', icon: '✨' },
-    { id: 'live', label: isHindi ? 'लाइव व मैप' : 'Live & Geo', icon: '⚡' },
-    { id: 'citizen', label: isHindi ? 'नागरिक स्वास्थ्य' : 'Citizen Health', icon: '🛡️' },
-    { id: 'science', label: isHindi ? 'विज्ञान व लैब' : 'Science Labs', icon: '🔬' },
-    { id: 'trust', label: isHindi ? 'ऑडिट व ब्लॉकचेन' : 'Trust & Audit', icon: '⛓️' }
+    { id: 'all', label: isHindi ? 'सभी मॉड्यूल' : 'All Modules' },
+    { id: 'live', label: isHindi ? 'लाइव व मैप' : 'Live & Geo' },
+    { id: 'citizen', label: isHindi ? 'नागरिक स्वास्थ्य' : 'Citizen Health' },
+    { id: 'science', label: isHindi ? 'विज्ञान व लैब' : 'Science Labs' },
+    { id: 'trust', label: isHindi ? 'ऑडिट व ब्लॉकचेन' : 'Trust & Audit' }
   ];
 
   const pages = [
     // Live & Geo
-    { id: 'overview', category: 'live', label: t('nav.overview', 'Overview & Live AQI'), icon: '⚡' },
-    { id: 'map', category: 'live', label: t('nav.map', 'Mapbox Grid & Matrix'), icon: '🗺️' },
+    { id: 'overview', category: 'live', label: t('nav.overview', 'Overview & Live AQI') },
+    { id: 'map', category: 'live', label: t('nav.map', 'Mapbox Grid & Matrix') },
 
     // Citizen Health
-    { id: 'ai-advisor', category: 'citizen', label: t('nav.aiAdvisor', 'AeroAI Health Advisor'), icon: '🤖' },
-    { id: 'route-planner', category: 'citizen', label: t('nav.routePlanner', 'Commute Exposure Planner'), icon: '🧭' },
-    { id: 'layman', category: 'citizen', label: t('nav.layman', 'Air Simplified (Bilingual)'), icon: '📖' },
-    { id: 'chatbot', category: 'citizen', label: t('nav.chatbot', 'AI AQI Chatbot'), icon: '💬' },
+    { id: 'ai-advisor', category: 'citizen', label: t('nav.aiAdvisor', 'AeroAI Health Advisor') },
+    { id: 'route-planner', category: 'citizen', label: t('nav.routePlanner', 'Commute Exposure Planner') },
+    { id: 'layman', category: 'citizen', label: t('nav.layman', 'Air Simplified (Bilingual)') },
+    { id: 'chatbot', category: 'citizen', label: t('nav.chatbot', 'AI AQI Chatbot') },
 
     // Science Labs
-    { id: 'forecast', category: 'science', label: t('nav.forecast', '72h Forecast & Policy'), icon: '⏳' },
-    { id: 'inversion', category: 'science', label: t('nav.inversion', 'Inversion Physics'), icon: '🧪' },
-    { id: 'ai-lab', category: 'science', label: t('nav.aiLab', 'AI/ML Neural Studio'), icon: '🧠' },
+    { id: 'forecast', category: 'science', label: t('nav.forecast', '72h Forecast & Policy') },
+    { id: 'inversion', category: 'science', label: t('nav.inversion', 'Inversion Physics') },
+    { id: 'ai-lab', category: 'science', label: t('nav.aiLab', 'AI/ML Neural Studio') },
 
     // Trust & Audit
-    { id: 'blockchain', category: 'trust', label: t('nav.blockchain', 'AeroLedger Audit'), icon: '⛓️' }
+    { id: 'blockchain', category: 'trust', label: t('nav.blockchain', 'AeroLedger Audit') }
   ];
 
   const filteredPages = activeCategoryFilter === 'all'
@@ -76,17 +76,17 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
 
   return (
     <header style={{
-      backgroundColor: 'var(--bg-panel)',
+      backgroundColor: 'var(--bg-glass)',
       borderBottom: '1px solid var(--border-color)',
-      padding: '8px 0',
+      padding: '10px 0',
       position: 'sticky',
       top: 0,
       zIndex: 1000,
-      boxShadow: 'var(--shadow-sm)',
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)'
+      boxShadow: 'var(--shadow-xs)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)'
     }}>
-      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {/* Top Row: Brand Identity + Flow Guide / Quick Jump + Controls */}
         <div style={{
           display: 'flex',
@@ -97,22 +97,22 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
         }}>
           {/* Brand Identity */}
           <div
-            style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
             onClick={() => { setCurrentPage('overview'); setMobileMenuOpen(false); }}
           >
             <div style={{
               width: '36px',
               height: '36px',
-              background: 'linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%)',
-              color: '#ffffff',
+              backgroundColor: 'var(--color-primary)',
+              color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontWeight: 800,
-              fontSize: '15px',
-              borderRadius: 'var(--radius-card, 10px)',
-              boxShadow: '0 2px 8px rgba(30, 58, 138, 0.25)',
-              letterSpacing: '-0.02em'
+              fontWeight: 700,
+              fontSize: '14px',
+              borderRadius: 'var(--radius-btn)',
+              letterSpacing: '-0.02em',
+              flexShrink: 0
             }}>
               AE
             </div>
@@ -121,13 +121,13 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
                 fontSize: '17px',
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
-                lineHeight: 1.1,
+                lineHeight: 1.15,
                 color: 'var(--text-main)',
                 fontFamily: 'var(--font-heading)'
               }}>
                 {t('common.appName', 'AERIS DELHI')}
               </div>
-              <div style={{ fontSize: '10px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: '10.5px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {t('common.appTagline', 'Coupled Weather-Chemistry 72h Engine')}
               </div>
             </div>
@@ -138,24 +138,19 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
             {/* Interactive Flow Guide Button */}
             <button
               onClick={onOpenFlowGuide}
-              className="btn btn-sm"
+              className="btn btn-outline btn-sm"
               style={{
-                fontSize: '11.5px',
+                fontSize: '12px',
                 padding: '5px 12px',
-                fontWeight: 800,
-                borderRadius: '20px',
-                backgroundColor: 'var(--accent-primary)',
-                color: '#ffffff',
-                border: 'none',
-                boxShadow: '0 2px 8px rgba(37, 99, 235, 0.3)',
+                fontWeight: 600,
+                borderRadius: 'var(--radius-btn)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px'
               }}
               title={isHindi ? 'वेबसाइट का संपूर्ण नेविगेशन रोडमैप और सभी वैज्ञानिक विषयों का विवरण' : 'Open complete step-by-step navigation roadmap and topic guide'}
             >
-              <span>🧭</span>
-              <span>{isHindi ? 'फ्लो गाइड व रोडमैप' : 'Flow Guide & Sitemap'}</span>
+              <span>{isHindi ? 'फ्लो गाइड' : 'Flow Guide'}</span>
             </button>
 
             {/* Quick Search Palette (Ctrl+K) */}
@@ -163,20 +158,18 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
               onClick={onOpenQuickJump}
               className="btn btn-outline btn-sm"
               style={{
-                fontSize: '11.5px',
+                fontSize: '12px',
                 padding: '5px 10px',
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-btn)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
                 backgroundColor: 'var(--bg-panel-subtle)',
-                color: 'var(--text-main)',
-                borderColor: 'var(--border-color)'
+                color: 'var(--text-main)'
               }}
               title={isHindi ? 'त्वरित खोज (Ctrl+K)' : 'Quick search topic or jump to feature (Ctrl+K)'}
             >
-              <span>🔍</span>
-              <span>{isHindi ? 'खोजें...' : 'Quick Jump...'}</span>
+              <span>{isHindi ? 'खोजें...' : 'Search...'}</span>
               <span style={{
                 fontSize: '10px',
                 padding: '1px 5px',
@@ -184,9 +177,10 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
                 backgroundColor: 'var(--bg-panel)',
                 border: '1px solid var(--border-color)',
                 fontFamily: 'var(--font-mono)',
-                color: 'var(--text-muted)'
+                color: 'var(--text-muted)',
+                fontWeight: 600
               }}>
-                Ctrl+K
+                ⌘K
               </span>
             </button>
           </div>
@@ -200,8 +194,8 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
               gap: '6px',
               backgroundColor: 'var(--bg-panel-subtle)',
               border: '1px solid var(--border-color)',
-              borderRadius: 'var(--radius-sm)',
-              padding: '4px 8px',
+              borderRadius: 'var(--radius-full)',
+              padding: '4px 10px',
               fontSize: '11px',
               fontWeight: 700
             }}>
@@ -211,9 +205,10 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: liveSimulation ? '#10b981' : '#64748b',
+                  backgroundColor: liveSimulation ? '#10b981' : '#816c61',
                   display: 'inline-block',
                   cursor: 'pointer',
+                  boxShadow: liveSimulation ? '0 0 6px #10b981' : 'none',
                   animation: liveSimulation ? 'pulseDot 1.6s infinite' : 'none'
                 }}
                 title={liveSimulation ? 'Telemetry Simulation Live (Click to pause)' : 'Simulation Paused (Click to resume)'}
@@ -233,6 +228,7 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
                   cursor: 'pointer',
                   padding: '0 2px',
                   fontSize: '11px',
+                  color: 'var(--text-muted)',
                   transform: isRefreshing ? 'rotate(180deg)' : 'none',
                   transition: 'transform 0.4s ease'
                 }}
@@ -249,20 +245,20 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
               onClick={toggleLanguage}
               className="btn btn-outline btn-sm"
               style={{
-                fontSize: '11px',
-                padding: '4px 8px',
-                fontWeight: 800,
+                fontSize: '11.5px',
+                padding: '5px 10px',
+                fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '4px',
-                borderColor: 'var(--accent-primary)',
+                gap: '5px',
+                borderRadius: 'var(--radius-btn)',
+                borderColor: 'var(--border-color)',
                 backgroundColor: 'var(--bg-panel-subtle)',
                 color: 'var(--text-main)'
               }}
               title={language === 'en' ? 'Switch website to Hindi (हिन्दी)' : 'Switch website to English'}
             >
-              <span>🌐</span>
-              <span>{language === 'en' ? 'हिन्दी' : 'EN'}</span>
+              <span>{language === 'en' ? 'हिन्दी' : 'English'}</span>
             </button>
 
             {/* Compare Modal Button */}
@@ -270,50 +266,52 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
               onClick={() => setIsCompareModalOpen(true)}
               className="btn btn-outline btn-sm"
               style={{
-                fontSize: '11px',
-                padding: '4px 8px',
+                fontSize: '11.5px',
+                padding: '5px 10px',
+                borderRadius: 'var(--radius-btn)',
                 borderColor: comparisonList.length > 0 ? 'var(--accent-primary)' : 'var(--border-color)',
-                backgroundColor: comparisonList.length > 0 ? 'var(--bg-panel-subtle)' : 'transparent',
-                fontWeight: comparisonList.length > 0 ? 700 : 500
+                backgroundColor: comparisonList.length > 0 ? 'var(--color-primary-soft)' : 'transparent',
+                color: comparisonList.length > 0 ? 'var(--accent-primary)' : 'var(--text-main)',
+                fontWeight: comparisonList.length > 0 ? 600 : 500
               }}
             >
-              ⚖️ {t('common.compare', 'Compare')} ({comparisonList.length})
+              {t('common.compare', 'Compare')} ({comparisonList.length})
             </button>
 
             {/* Sound Synthesizer Toggle */}
             <button
               onClick={handleToggleSound}
               className="btn btn-outline btn-sm"
-              style={{ fontSize: '11px', padding: '4px 8px' }}
+              style={{ fontSize: '11.5px', padding: '5px 8px', borderRadius: 'var(--radius-btn)' }}
               title={soundEnabled ? 'Atmospheric audio sonification active (Click to mute)' : 'Muted (Click to enable audio sonification)'}
             >
-              {soundEnabled ? '🔊' : '🔇'}
+              {soundEnabled ? 'Audio On' : 'Mute'}
             </button>
 
             {/* Theme Switcher Toggle */}
             <button
               onClick={toggleTheme}
               className="btn btn-outline btn-sm"
-              style={{ fontSize: '11px', padding: '4px 8px' }}
-              title={`Switch to ${theme === 'light' ? 'Dark Carbon' : 'Warm Slate'} Mode`}
+              style={{ fontSize: '11.5px', padding: '5px 9px', borderRadius: 'var(--radius-btn)' }}
+              title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
             >
-              {theme === 'light' ? '🌙' : '☀️'}
+              {theme === 'light' ? 'Dark' : 'Light'}
             </button>
 
             {/* Add Station Button */}
             <button
               onClick={onOpenAddModal}
               className="btn btn-sm"
-              style={{ fontSize: '11px', padding: '5px 10px', borderRadius: 'var(--radius-sm)' }}
+              style={{ fontSize: '11.5px', padding: '5px 10px', borderRadius: 'var(--radius-btn)', fontWeight: 600 }}
             >
-              {t('common.addStation', '+ Add Station')}
+              {t('common.addStation', '+ Station')}
             </button>
 
             {/* Mobile hamburger menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(prev => !prev)}
               className="btn btn-outline btn-sm mobile-only"
-              style={{ display: 'none', padding: '4px 8px', fontSize: '13px' }}
+              style={{ display: 'none', padding: '5px 9px', fontSize: '13px' }}
             >
               ☰
             </button>
@@ -326,13 +324,13 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
           alignItems: 'center',
           justifyContent: 'space-between',
           borderTop: '1px solid var(--border-color)',
-          paddingTop: '6px',
-          gap: '10px',
+          paddingTop: '8px',
+          gap: '12px',
           flexWrap: 'wrap'
         }}>
-          {/* Category Filter Pills */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', overflowX: 'auto', paddingBottom: '2px' }}>
-            <span style={{ fontSize: '10.5px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em', marginRight: '4px' }}>
+          {/* Category Filter Buttons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', overflowX: 'auto', paddingBottom: '2px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginRight: '4px' }}>
               {isHindi ? 'श्रेणी:' : 'HUB:'}
             </span>
             {categories.map(cat => {
@@ -342,19 +340,19 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
                   key={cat.id}
                   onClick={() => setActiveCategoryFilter(cat.id)}
                   style={{
-                    fontSize: '11px',
-                    padding: '3px 8px',
-                    borderRadius: '20px',
-                    border: isSelected ? '1px solid var(--accent-primary)' : '1px solid var(--border-color)',
-                    backgroundColor: isSelected ? 'var(--accent-primary)' : 'var(--bg-panel-subtle)',
-                    color: isSelected ? '#ffffff' : 'var(--text-muted)',
+                    fontSize: '11.5px',
+                    padding: '4px 10px',
+                    borderRadius: 'var(--radius-btn)',
+                    border: isSelected ? '1px solid var(--color-primary)' : '1px solid var(--color-border)',
+                    backgroundColor: isSelected ? 'var(--color-primary-soft)' : 'var(--color-surface-2)',
+                    color: isSelected ? 'var(--color-primary)' : 'var(--color-text-secondary)',
                     cursor: 'pointer',
-                    fontWeight: isSelected ? 700 : 500,
+                    fontWeight: isSelected ? 600 : 500,
                     whiteSpace: 'nowrap',
-                    transition: 'all 0.15s ease'
+                    transition: 'all 0.18s ease'
                   }}
                 >
-                  {cat.icon} {cat.label}
+                  {cat.label}
                 </button>
               );
             })}
@@ -365,7 +363,7 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
             className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}
             style={{
               display: 'flex',
-              gap: '4px',
+              gap: '6px',
               flexWrap: 'wrap',
               alignItems: 'center'
             }}
@@ -381,21 +379,20 @@ export default function Navigation({ currentPage, setCurrentPage, onOpenAddModal
                   }}
                   className="btn btn-outline btn-sm"
                   style={{
-                    backgroundColor: isActive ? 'var(--accent-primary)' : 'transparent',
-                    color: isActive ? '#ffffff' : 'var(--text-main)',
-                    borderColor: isActive ? 'var(--accent-primary)' : 'var(--border-color)',
-                    fontWeight: isActive ? 700 : 500,
-                    fontSize: '11.5px',
-                    padding: '4px 10px',
-                    borderRadius: 'var(--radius-sm)',
+                    backgroundColor: isActive ? 'var(--color-primary-soft)' : 'transparent',
+                    color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+                    borderColor: isActive ? 'var(--color-primary)' : 'var(--color-border)',
+                    fontWeight: isActive ? 600 : 500,
+                    fontSize: '12px',
+                    padding: '6px 12px',
+                    borderRadius: 'var(--radius-btn)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '5px',
-                    boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
-                    transition: 'all 0.15s ease'
+                    gap: '6px',
+                    boxShadow: 'none',
+                    transition: 'all 0.18s ease'
                   }}
                 >
-                  <span>{p.icon}</span>
                   <span>{p.label}</span>
                 </button>
               );

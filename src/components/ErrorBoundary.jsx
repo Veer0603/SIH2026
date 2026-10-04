@@ -32,19 +32,19 @@ export default class ErrorBoundary extends React.Component {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#0f172a',
-          color: '#f8fafc',
+          backgroundColor: '#131B23',
+          color: '#E9F1F7',
           padding: '20px',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}>
           <div style={{
             maxWidth: '600px',
             width: '100%',
-            backgroundColor: '#1e293b',
-            border: '1px solid #334155',
-            borderRadius: '12px',
+            backgroundColor: '#1C2530',
+            border: '1px solid rgba(231, 223, 198, 0.15)',
+            borderRadius: '16px',
             padding: '28px',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)'
+            boxShadow: '0 20px 30px -5px rgba(0, 0, 0, 0.5)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
               <span style={{ fontSize: '24px' }}>⚠️</span>
@@ -53,13 +53,13 @@ export default class ErrorBoundary extends React.Component {
               </h2>
             </div>
 
-            <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: 1.6, marginBottom: '20px' }}>
+            <p style={{ color: '#E7DFC6', opacity: 0.85, fontSize: '14px', lineHeight: 1.6, marginBottom: '20px' }}>
               A client-side render discrepancy was caught and intercepted. Your local state has been preserved.
             </p>
 
             {this.state.error && (
               <div style={{
-                backgroundColor: '#0f172a',
+                backgroundColor: '#131B23',
                 padding: '12px 16px',
                 borderRadius: '8px',
                 fontFamily: 'monospace',
@@ -67,7 +67,7 @@ export default class ErrorBoundary extends React.Component {
                 color: '#f87171',
                 marginBottom: '20px',
                 overflowX: 'auto',
-                border: '1px solid #7f1d1d'
+                border: '1px solid rgba(239, 68, 68, 0.4)'
               }}>
                 {this.state.error.toString()}
               </div>
@@ -77,10 +77,10 @@ export default class ErrorBoundary extends React.Component {
               <button
                 onClick={this.handleReload}
                 style={{
-                  backgroundColor: '#2563eb',
+                  backgroundColor: '#2274A5',
                   color: '#ffffff',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '9px',
                   padding: '10px 18px',
                   fontWeight: 700,
                   fontSize: '13px',
@@ -94,9 +94,9 @@ export default class ErrorBoundary extends React.Component {
                 onClick={this.handleReset}
                 style={{
                   backgroundColor: 'transparent',
-                  color: '#94a3b8',
-                  border: '1px solid #475569',
-                  borderRadius: '6px',
+                  color: '#E7DFC6',
+                  border: '1px solid rgba(129, 108, 97, 0.6)',
+                  borderRadius: '9px',
                   padding: '10px 18px',
                   fontWeight: 600,
                   fontSize: '13px',

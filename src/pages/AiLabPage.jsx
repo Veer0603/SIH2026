@@ -174,13 +174,19 @@ export default function AiLabPage() {
   return (
     <div>
       {/* Top Banner */}
-      <div className="panel" style={{ backgroundColor: 'var(--bg-panel-subtle)', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div className="panel" style={{
+        background: 'var(--color-surface)',
+        marginBottom: '20px',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-panel)',
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
           <div>
-            <div className="tag" style={{ backgroundColor: 'var(--accent-primary)', color: '#ffffff', marginBottom: '6px' }}>
+            <div className="tag" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-border)', marginBottom: '8px', fontWeight: 600 }}>
               {t('lab.tag', 'Physics-Informed Neural Network Lab')}
             </div>
-            <h1 style={{ fontSize: '26px', fontWeight: 800 }}>
+            <h1 style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-main)', marginBottom: '4px' }}>
               {t('lab.title', 'AI/ML Neural Studio & Policy Scenario Simulator')}
             </h1>
             <p className="muted" style={{ margin: 0 }}>
@@ -189,11 +195,11 @@ export default function AiLabPage() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <button onClick={handleExportMLAudit} className="btn btn-outline btn-sm">
-              {language === 'hi' ? '📥 न्यूरल ऑडिट डाउनलोड करें' : '📥 Export Neural Audit'}
+            <button onClick={handleExportMLAudit} className="btn btn-outline btn-sm" style={{ borderRadius: 'var(--radius-btn)', fontWeight: 600 }}>
+              {language === 'hi' ? 'न्यूरल ऑडिट डाउनलोड करें' : 'Export Neural Audit'}
             </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+              <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
                 {t('common.station', 'Target Locality')}:
               </span>
               <select
@@ -204,11 +210,11 @@ export default function AiLabPage() {
                   const found = stationList.find(s => s.id === e.target.value);
                   if (found) setSelectedStation(found);
                 }}
-                style={{ padding: '6px 10px', fontSize: '12px', fontWeight: 600 }}
+                style={{ padding: '7px 12px', fontSize: '12.5px', fontWeight: 600, borderRadius: 'var(--radius-btn)' }}
               >
                 {((stations && stations.length > 0) ? stations : DELHI_STATIONS).map(s => (
                   <option key={s.id} value={s.id}>
-                    {s.shortName} ({t('common.aqi', 'AQI')} {s.aqi})
+                    {s.shortName} (AQI {s.aqi})
                   </option>
                 ))}
               </select>
@@ -220,10 +226,10 @@ export default function AiLabPage() {
       {/* Navigation Sub-Tabs */}
       <div className="tab-group" style={{ marginBottom: '20px', flexWrap: 'wrap' }}>
         {[
-          { id: 'source-apportionment', label: language === 'hi' ? '🧬 बेयसियन स्रोत पृथक्करण' : '🧬 Bayesian Source Apportionment', icon: '🧬' },
-          { id: 'pinn-inversion', label: language === 'hi' ? '⚡ PINN इनवर्जन ब्रेकथ्रू' : '⚡ PINN Inversion Breakthrough', icon: '⚡' },
-          { id: 'sensor-anomaly', label: language === 'hi' ? '🛡️ सेंसर विसंगति व धोखाधड़ी पहचान' : '🛡️ Sensor Drift & Anomaly AI', icon: '🛡️' },
-          { id: 'counterfactual', label: language === 'hi' ? '📊 नीतिगत हस्तक्षेप सिमुलेटर' : '📊 Policy Counterfactual ML', icon: '📊' }
+          { id: 'source-apportionment', label: language === 'hi' ? 'बेयसियन स्रोत पृथक्करण' : 'Bayesian Source Apportionment' },
+          { id: 'pinn-inversion', label: language === 'hi' ? 'PINN इनवर्जन ब्रेकथ्रू' : 'PINN Inversion Breakthrough' },
+          { id: 'sensor-anomaly', label: language === 'hi' ? 'सेंसर विसंगति पहचान' : 'Sensor Drift & Anomaly AI' },
+          { id: 'counterfactual', label: language === 'hi' ? 'नीतिगत हस्तक्षेप सिमुलेटर' : 'Policy Counterfactual ML' }
         ].map(tab => (
           <button
             key={tab.id}
