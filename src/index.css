@@ -714,4 +714,45 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Print Media Styles for Official Audit Report Certificate */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  body > *:not(.audit-report-modal-overlay) {
+    display: none !important;
+  }
+  .audit-report-modal-overlay {
+    position: static !important;
+    inset: auto !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+  .audit-report-container {
+    max-width: 100% !important;
+    max-height: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .metric-box {
+    border: 1px solid #cccccc !important;
+    background: #f9f9f9 !important;
+    color: #000000 !important;
+    break-inside: avoid;
+  }
+}
+
 

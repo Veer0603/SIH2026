@@ -6,7 +6,7 @@ import SourceApportionmentCard from '../components/SourceApportionmentCard';
 import OfficialAuditReportModal from '../components/OfficialAuditReportModal';
 import { AQI_CATEGORIES } from '../data/delhiStationsData';
 import { useApp } from '../context/useApp';
-import { playAtmosphereTone, speakDirective } from '../utils/audioSynthesizer';
+import { speakDirective } from '../utils/audioSynthesizer';
 
 export default function OverviewPage({ onNavigate }) {
   const {
@@ -45,11 +45,6 @@ export default function OverviewPage({ onNavigate }) {
         : selectedStation.aqi > 200
           ? 'Smog is heavy across Delhi NCR. You must wear an N95 mask outdoors.'
           : 'Air quality is acceptable for normal outdoor activity.');
-
-  const handlePlayTone = () => {
-    playAtmosphereTone(selectedStation.aqi, 2200);
-    addToast(language === 'hi' ? `AQI ${selectedStation.aqi} हेतु वायुमंडलीय ध्वनि उत्पन्न की जा रही है` : `Playing atmospheric frequency tone for AQI ${selectedStation.aqi}`, 'info');
-  };
 
   const handleSpeakAlert = () => {
     const spoke = speakDirective(language === 'hi' ? `दिल्ली नागरिक ध्यान दें: ${alertDirectiveText}` : `Attention Delhi citizens: ${alertDirectiveText}`, language);
@@ -234,23 +229,6 @@ export default function OverviewPage({ onNavigate }) {
 
         {/* Action Controls in Directive Banner */}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-          {/* Sound / Tone button */}
-          <button
-            onClick={handlePlayTone}
-            className="btn btn-outline btn-sm"
-            style={{
-              borderColor: 'currentColor',
-              color: 'currentColor',
-              fontSize: '11.5px',
-              padding: '6px 12px',
-              fontWeight: 700,
-              backgroundColor: 'rgba(255, 255, 255, 0.4)'
-            }}
-            title={language === 'hi' ? 'वर्तमान AQI की ध्वनि तरंग सुनें' : 'Listen to synthesized atmospheric soundscape for current AQI'}
-          >
-            {language === 'hi' ? '🔊 ध्वनि सुनें' : '🔊 Sonify'}
-          </button>
-
           {/* Voice alert button */}
           <button
             onClick={handleSpeakAlert}
