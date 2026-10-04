@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/useApp';
 
 export default function NavigationFlowGuideModal({ isOpen, onClose, onNavigate }) {
@@ -8,6 +8,22 @@ export default function NavigationFlowGuideModal({ isOpen, onClose, onNavigate }
   const [activePersonaTab, setActivePersonaTab] = useState('citizen');
   const [activeTopicCategory, setActiveTopicCategory] = useState('all');
   const [searchFilter, setSearchFilter] = useState('');
+
+  // Global Escape key listener to close modal from anywhere in the window
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleGlobalKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown, true);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown, true);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 

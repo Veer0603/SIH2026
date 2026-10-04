@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { generateBlockHeader } from '../utils/blockchainLedger';
 
 export default function AddStationModal({ isOpen, onClose, onAddStation }) {
@@ -12,6 +12,22 @@ export default function AddStationModal({ isOpen, onClose, onAddStation }) {
   const [windSpeed, setWindSpeed] = useState('5.5');
   const [sourceType, setSourceType] = useState('Community IoT Sensor');
   const [error, setError] = useState('');
+
+  // Global Escape key listener to close modal from anywhere in the window
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleGlobalKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown, true);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown, true);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 

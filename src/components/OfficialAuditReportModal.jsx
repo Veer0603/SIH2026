@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { calculateCigaretteEquivalent, getGRAPStage } from '../utils/mlEngine';
 import { useApp } from '../context/useApp';
 
 export default function OfficialAuditReportModal({ isOpen, onClose, station }) {
   const { addToast, lastUpdated } = useApp();
   const [copied, setCopied] = useState(false);
+
+  // Global Escape key listener to close modal from anywhere in the window
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleGlobalKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown, true);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown, true);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !station) return null;
 

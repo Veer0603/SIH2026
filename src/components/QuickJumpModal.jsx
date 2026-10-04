@@ -123,6 +123,22 @@ export default function QuickJumpModal({ isOpen, onClose, onNavigate }) {
     }
   }, [isOpen]);
 
+  // Global Escape key listener to close modal from anywhere in the window
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleGlobalKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown, true);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown, true);
+  }, [isOpen, onClose]);
+
   const filteredItems = searchableItems.filter(item => {
     if (!query.trim()) return true;
     const q = query.toLowerCase();
@@ -150,7 +166,9 @@ export default function QuickJumpModal({ isOpen, onClose, onNavigate }) {
       if (filteredItems[selectedIndex]) {
         handleSelect(filteredItems[selectedIndex]);
       }
-    } else if (e.key === 'Escape') {
+    } else if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+      e.preventDefault();
+      e.stopPropagation();
       onClose();
     }
   };
@@ -211,6 +229,7 @@ export default function QuickJumpModal({ isOpen, onClose, onNavigate }) {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
+            onKeyDown={handleKeyDown}
             style={{
               flex: 1,
               border: 'none',
