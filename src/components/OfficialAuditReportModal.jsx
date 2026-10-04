@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { calculateCigaretteEquivalent, calculateAQLIImpact, getGRAPStage } from '../utils/mlEngine';
 import { useApp } from '../context/useApp';
 

@@ -21,13 +21,16 @@ export default function StationCompareModal() {
 
   // Keyboard Escape to dismiss modal
   React.useEffect(() => {
+    if (!isCompareModalOpen) return;
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isCompareModalOpen) {
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        e.preventDefault();
+        e.stopPropagation();
         setIsCompareModalOpen(false);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => window.removeEventListener('keydown', handleKeyDown, true);
   }, [isCompareModalOpen, setIsCompareModalOpen]);
 
   if (!isCompareModalOpen) return null;
@@ -119,10 +122,12 @@ export default function StationCompareModal() {
         padding: '20px'
       }}
     >
-      <div style={{
-        backgroundColor: 'var(--bg-page)',
-        border: '2px solid var(--accent-primary)',
-        width: '100%',
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          backgroundColor: 'var(--bg-page)',
+          border: '2px solid var(--accent-primary)',
+          width: '100%',
         maxWidth: '1150px',
         maxHeight: '92vh',
         overflowY: 'auto',

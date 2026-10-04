@@ -31,12 +31,12 @@ export default function BlockchainLedgerView() {
 
   // Handle Mining / Committing new telemetry block
   const handleMineBlock = () => {
-    const newBlockHeight = blocks[0].blockHeight + 1;
+    const newBlockHeight = (blocks[0]?.blockHeight || 4189204) + 1;
     const now = new Date();
     const newBlock = {
       blockHeight: newBlockHeight,
       hash: generateBlockHeader(selectedStation, now.toISOString()),
-      previousHash: blocks[0].hash,
+      previousHash: blocks[0]?.hash || '0x0000000000000000000000000000000000000000000000000000000000000000',
       merkleRoot: `0x9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d`,
       stationId: selectedStation.id,
       stationName: selectedStation.shortName,
@@ -69,9 +69,9 @@ export default function BlockchainLedgerView() {
   };
 
   const filteredBlocks = blocks.filter(b =>
-    b.stationName.toLowerCase().includes(filterText.toLowerCase()) ||
-    b.hash.toLowerCase().includes(filterText.toLowerCase()) ||
-    b.blockHeight.toString().includes(filterText)
+    (b.stationName || '').toLowerCase().includes(filterText.toLowerCase()) ||
+    (b.hash || '').toLowerCase().includes(filterText.toLowerCase()) ||
+    (b.blockHeight || '').toString().includes(filterText)
   );
 
   return (

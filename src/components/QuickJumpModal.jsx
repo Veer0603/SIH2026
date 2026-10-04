@@ -21,9 +21,9 @@ export default function QuickJumpModal({ isOpen, onClose, onNavigate }) {
     {
       pageId: 'overview',
       category: isHindi ? 'नागरिक सुरक्षा' : 'Citizen Safety',
-      title: isHindi ? 'आपातकालीन आवाज़ चेतावनी व ध्वनि संश्लेषण' : 'Voice Safety Alert & Atmosphere Sonification',
+      title: isHindi ? 'आपातकालीन आवाज़ चेतावनी व दिशा-निर्देश' : 'Voice Safety Alert & Emergency Directive',
       icon: '📢',
-      keywords: ['voice', 'sound', 'audio', 'alert', 'sonify', 'sonification', 'speech', 'synthesis', 'ध्वनि', 'आवाज']
+      keywords: ['voice', 'sound', 'audio', 'alert', 'speech', 'directive', 'ध्वनि', 'आवाज']
     },
     {
       pageId: 'overview',

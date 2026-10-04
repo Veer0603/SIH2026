@@ -106,8 +106,12 @@ export default function AddStationModal({ isOpen, onClose, onAddStation }) {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '20px'
-    }}>
-      <div style={{
+    }}
+    onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
         backgroundColor: 'var(--bg-page)',
         border: '2px solid var(--accent-primary)',
         borderRadius: 'var(--radius-sharp)',

@@ -1,6 +1,6 @@
 // Delhi NCR Locality Geocoding & Distance Utility
 
-import { DELHI_STATIONS } from '../data/delhiStationsData';
+import { DELHI_STATIONS } from '../data/delhiStationsData.js';
 
 // Extended local lookup database for instantaneous zero-latency Delhi neighborhood searching
 const LOCAL_DELHI_NEIGHBORHOODS = [

@@ -11,8 +11,8 @@ export default function RoutePlannerPage() {
   const [transitMode, setTransitMode] = useState('metro'); // 'metro' | 'cab' | 'two-wheeler' | 'cycling'
   const [departureTime, setDepartureTime] = useState('morning'); // 'morning' (08:00) | 'afternoon' (14:00) | 'evening' (19:00)
 
-  const originStation = stations.find(s => s.id === originId) || stations[0];
-  const destStation = stations.find(s => s.id === destinationId) || stations[1];
+  const originStation = stations.find(s => s.id === originId) || stations[0] || { id: 'default-origin', name: 'Delhi NCR', lat: 28.6469, lng: 77.3162, pm25: 180, aqi: 250 };
+  const destStation = stations.find(s => s.id === destinationId) || stations[1] || stations[0] || { id: 'default-dest', name: 'Central Delhi', lat: 28.6315, lng: 77.2167, pm25: 140, aqi: 200 };
 
   // Calculate straight-line distance + road winding factor (1.35x)
   const directDistance = getDistanceKm(originStation.lat, originStation.lng, destStation.lat, destStation.lng);

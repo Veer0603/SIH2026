@@ -69,7 +69,7 @@ export default function CurrentAQICard({ station, customLocality }) {
           </div>
 
           <span className="subtitle">
-            {language === 'hi' ? 'निर्देशांक' : 'Coordinates'}: {station.lat.toFixed(4)}°N, {station.lng.toFixed(4)}°E • {language === 'hi' ? 'जोन' : 'Zone'}: <strong>{station.zone}</strong> • {language === 'hi' ? 'ऊंचाई' : 'Altitude'}: 216m MSL • {language === 'hi' ? 'सिंक समय' : 'Synced'}: {station.lastSynced || 'Active'}
+            {language === 'hi' ? 'निर्देशांक' : 'Coordinates'}: {(Number(station?.lat) || 28.6139).toFixed(4)}°N, {(Number(station?.lng) || 77.2090).toFixed(4)}°E • {language === 'hi' ? 'जोन' : 'Zone'}: <strong>{station?.zone || 'Delhi NCR'}</strong> • {language === 'hi' ? 'ऊंचाई' : 'Altitude'}: 216m MSL • {language === 'hi' ? 'सिंक समय' : 'Synced'}: {station?.lastSynced || 'Active'}
           </span>
         </div>
 

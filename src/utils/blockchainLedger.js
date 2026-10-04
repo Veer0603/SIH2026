@@ -1,4 +1,5 @@
 // AeroLedger - Decentralized Environmental Data Integrity & Smart Contract Ledger
+import { DELHI_STATIONS } from '../data/delhiStationsData.js';
 
 /**
  * Generates deterministic cryptographic hash for station data integrity
@@ -104,8 +105,9 @@ export function simulateTamperVerification(station, forgedAqi, forgedPm25) {
 /**
  * Returns Merkle Tree Structure for visualization
  */
-export function getMerkleTreeHierarchy(stations) {
-  const sample = stations.slice(0, 4);
+export function getMerkleTreeHierarchy(stations = DELHI_STATIONS) {
+  const effectiveStations = (stations && stations.length >= 4) ? stations : DELHI_STATIONS;
+  const sample = effectiveStations.slice(0, 4);
   const leaves = sample.map((s, idx) => ({
     label: `Leaf ${idx + 1}: ${s.shortName}`,
     hash: generateBlockHeader(s).slice(0, 16) + '...'

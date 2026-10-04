@@ -78,7 +78,7 @@ export default function StationMap({ onOpenAddModal }) {
 
   // Construct Tile Layer URL
   const getTileUrl = useCallback((provider, style, token, retina) => {
-    if (provider === 'cartodb') {
+    if (provider === 'cartodb' || (provider === 'mapbox' && !token)) {
       return theme === 'dark'
         ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
         : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
@@ -123,7 +123,18 @@ export default function StationMap({ onOpenAddModal }) {
         tileSize: 512,
         zoomOffset: -1,
         maxZoom: 19
-      }).addTo(map);
+      });
+
+      tileLayer.on('tileerror', () => {
+        if (tileProvider === 'mapbox') {
+          const fallbackUrl = theme === 'dark'
+            ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+            : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+          tileLayer.setUrl(fallbackUrl);
+        }
+      });
+
+      tileLayer.addTo(map);
 
       tileLayerRef.current = tileLayer;
       mapInstanceRef.current = map;
@@ -458,6 +469,7 @@ export default function StationMap({ onOpenAddModal }) {
     comparisonList,
     favorites,
     language,
+    theme,
     getTileUrl,
     toggleComparison,
     toggleFavorite
@@ -469,6 +481,16 @@ export default function StationMap({ onOpenAddModal }) {
       mapInstanceRef.current.flyTo([selectedStation.lat, selectedStation.lng], 12.5, { duration: 0.8 });
     }
   }, [selectedStation]);
+
+  // Clean up Leaflet map instance on component unmount to prevent container re-initialization errors
+  useEffect(() => {
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, []);
 
   // Map Controls Helpers
   const fitAllStations = () => {

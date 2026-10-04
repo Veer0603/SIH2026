@@ -2,7 +2,7 @@
 // Supports contextual live station telemetry, health precautions, GRAP regulations,
 // stubble burning, meteorology, masks, purifiers, and optional Google Gemini API.
 
-import { DELHI_STATIONS } from '../data/delhiStationsData';
+import { DELHI_STATIONS } from '../data/delhiStationsData.js';
 
 // Suggested Quick Prompts (Bilingual)
 export const QUICK_PROMPTS = {
@@ -520,7 +520,7 @@ export function generateLocalBotResponse(query, context = {}) {
 }
 
 // Default Integrated Google Gemini API Key from environment
-export const DEFAULT_GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+export const DEFAULT_GEMINI_API_KEY = import.meta?.env?.VITE_GEMINI_API_KEY || '';
 
 // Google Gemini API Caller with Resilient Model Cascade and Zero-Thinking Budget
 export async function queryGeminiAPI(apiKey, prompt, context = {}) {
@@ -530,7 +530,7 @@ export async function queryGeminiAPI(apiKey, prompt, context = {}) {
     language = 'en'
   } = context;
 
-  const activeKey = apiKey?.trim() || import.meta.env.VITE_GEMINI_API_KEY || DEFAULT_GEMINI_API_KEY;
+  const activeKey = apiKey?.trim() || import.meta?.env?.VITE_GEMINI_API_KEY || DEFAULT_GEMINI_API_KEY;
   if (!activeKey) {
     throw new Error('No Gemini API key available.');
   }
