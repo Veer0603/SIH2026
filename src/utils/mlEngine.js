@@ -499,10 +499,11 @@ export function calculateOutdoorScore(aqi, profile = 'general', params = {}) {
   const defaultAges = { general: 32, children: 70, asthma: 38, athlete: 25, pregnant: 29, commuter: 30 };
   const age = params.userAge !== undefined ? params.userAge : (defaultAges[profile] || 32);
   let agePenalty = 1.0;
-  if (age < 8) agePenalty = 1.32;
-  else if (age < 15) agePenalty = 1.15;
-  else if (age > 75) agePenalty = 1.30;
-  else if (age > 65) agePenalty = 1.18;
+  if (age < 18) {
+    agePenalty = 1.0 + Math.max(0, (18 - age) * 0.022);
+  } else if (age > 30) {
+    agePenalty = 1.0 + ((age - 30) * 0.006);
+  }
 
   const defaultExertion = { general: 'moderate', children: 'sedentary', asthma: 'sedentary', athlete: 'heavy', pregnant: 'sedentary', commuter: 'moderate' };
   const exertion = params.activityExertion || defaultExertion[profile] || 'moderate';

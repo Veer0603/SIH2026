@@ -267,10 +267,11 @@ export default function AiLabPage() {
                   max="80"
                   step="5"
                   value={stubbleReduction}
-                  onChange={(e) => setStubbleReduction(parseInt(e.target.value))}
+                  onChange={(e) => setStubbleReduction(Number(e.target.value))}
+                  onInput={(e) => setStubbleReduction(Number(e.target.value))}
                   className="range-slider"
                 />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                   <span>0% (Current Season Baseline)</span>
                   <span>80% (Strict Satellite Enforcement)</span>
                 </div>
@@ -288,10 +289,11 @@ export default function AiLabPage() {
                   max="50"
                   step="5"
                   value={vehicleReduction}
-                  onChange={(e) => setVehicleReduction(parseInt(e.target.value))}
+                  onChange={(e) => setVehicleReduction(Number(e.target.value))}
+                  onInput={(e) => setVehicleReduction(Number(e.target.value))}
                   className="range-slider"
                 />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                   <span>0% (Standard Traffic Flow)</span>
                   <span>50% (Odd-Even + BS-III/IV Bans)</span>
                 </div>
@@ -309,10 +311,11 @@ export default function AiLabPage() {
                   max="60"
                   step="5"
                   value={industrialReduction}
-                  onChange={(e) => setIndustrialReduction(parseInt(e.target.value))}
+                  onChange={(e) => setIndustrialReduction(Number(e.target.value))}
+                  onInput={(e) => setIndustrialReduction(Number(e.target.value))}
                   className="range-slider"
                 />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                   <span>0% (Standard Kilns &amp; Plants)</span>
                   <span>60% (Scrubbers &amp; Shift to PNG)</span>
                 </div>
@@ -330,10 +333,11 @@ export default function AiLabPage() {
                   max="40"
                   step="5"
                   value={dustReduction}
-                  onChange={(e) => setDustReduction(parseInt(e.target.value))}
+                  onChange={(e) => setDustReduction(Number(e.target.value))}
+                  onInput={(e) => setDustReduction(Number(e.target.value))}
                   className="range-slider"
                 />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                   <span>0% (Untreated Dust)</span>
                   <span>40% (Continuous Mist Cannons)</span>
                 </div>
@@ -447,10 +451,11 @@ export default function AiLabPage() {
                   max="750"
                   step="25"
                   value={solarInsolationWm2}
-                  onChange={(e) => setSolarInsolationWm2(parseInt(e.target.value))}
+                  onChange={(e) => setSolarInsolationWm2(Number(e.target.value))}
+                  onInput={(e) => setSolarInsolationWm2(Number(e.target.value))}
                   className="range-slider"
                 />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                   <span>150 W/m² (Hazy Overcast)</span>
                   <span>750 W/m² (Bright Sunlight)</span>
                 </div>
@@ -467,10 +472,11 @@ export default function AiLabPage() {
                   max="35"
                   step="1"
                   value={groundTempC}
-                  onChange={(e) => setGroundTempC(parseInt(e.target.value))}
+                  onChange={(e) => setGroundTempC(Number(e.target.value))}
+                  onInput={(e) => setGroundTempC(Number(e.target.value))}
                   className="range-slider"
                 />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                   <span>8°C (Cold Winter Night)</span>
                   <span>35°C (Warm Afternoon)</span>
                 </div>
@@ -487,7 +493,8 @@ export default function AiLabPage() {
                   max="800"
                   step="20"
                   value={inversionLidAltitudeM}
-                  onChange={(e) => setInversionLidAltitudeM(parseInt(e.target.value))}
+                  onChange={(e) => setInversionLidAltitudeM(Number(e.target.value))}
+                  onInput={(e) => setInversionLidAltitudeM(Number(e.target.value))}
                   className="range-slider"
                 />
               </div>

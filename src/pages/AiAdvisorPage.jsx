@@ -155,7 +155,19 @@ export default function AiAdvisorPage() {
 
   const exertionRates = { sedentary: 0.5, moderate: 1.1, heavy: 2.8 }; // m3/h ventilation
   const baseRate = exertionRates[activityExertion] || 1.0;
-  const ageFactor = userAge < 12 ? 1.35 : userAge > 65 ? 1.15 : 1.0;
+
+  // Continuous physiological age multiplier for respiratory ventilation & alveolar particulate deposition
+  // (Based on EPA Inhalation Reference & ICRP Human Respiratory Tract Model)
+  let ageFactor = 1.0;
+  if (userAge < 18) {
+    // Pediatric elevation: from 1.35 at age 4 down to 1.0 at age 18
+    ageFactor = 1.0 + Math.max(0, (18 - userAge) * 0.025);
+  } else if (userAge > 30) {
+    // Senior pulmonary dead space & retention: smoothly scales from 1.0 at age 30 to 1.38 at age 85
+    ageFactor = 1.0 + ((userAge - 30) * 0.007);
+  }
+  ageFactor = Math.round(ageFactor * 100) / 100;
+
   const personalBreathingRate = baseRate * ageFactor; // m3/h
 
   // Outdoor vs indoor PM2.5 calculation
@@ -165,11 +177,11 @@ export default function AiAdvisorPage() {
 
   const outdoorDoseUg = outdoorHours * personalBreathingRate * outdoorPM25 * (1 - maskEfficiency);
   const indoorHours = Math.max(0, 24 - outdoorHours);
-  const indoorDoseUg = indoorHours * 0.45 * indoorPM25;
+  const indoorDoseUg = indoorHours * (0.45 * ageFactor) * indoorPM25;
   const totalInhaledDoseUg = Math.round(outdoorDoseUg + indoorDoseUg);
 
-  // Equivalent cigarettes per day (Berkeley Earth: 22 µg PM2.5 ≈ 1 cigarette)
-  const equivalentCigarettes = (totalInhaledDoseUg / 22).toFixed(1);
+  // Equivalent cigarettes per day (Berkeley Earth: 1 cigarette ≈ 22 µg/m³ 24h ambient exposure ≈ 238 µg total inhaled lung dose)
+  const equivalentCigarettes = Math.max(0.1, Number((totalInhaledDoseUg / 238).toFixed(1)));
 
   // Vulnerability & Risk Mitigation Score
   const profileVulnerabilityWeights = {
@@ -181,7 +193,7 @@ export default function AiAdvisorPage() {
     commuter: 1.4
   };
   const profileWeight = profileVulnerabilityWeights[userProfile] || 1.0;
-  const unmitigatedDoseUg = (outdoorHours * personalBreathingRate * outdoorPM25) + (indoorHours * 0.45 * (outdoorPM25 * 0.70));
+  const unmitigatedDoseUg = (outdoorHours * personalBreathingRate * outdoorPM25) + (indoorHours * (0.45 * ageFactor) * (outdoorPM25 * 0.70));
   const rawRiskReduction = unmitigatedDoseUg > 0 ? Math.round(((unmitigatedDoseUg - totalInhaledDoseUg) / unmitigatedDoseUg) * 100) : 0;
   // Checklist contribution adds up to +20% extra behavioral mitigation
   const checklistBonus = Math.round((completedCount / (actionKeys.length || 1)) * 20);
@@ -383,11 +395,12 @@ export default function AiAdvisorPage() {
                 max="85"
                 step="1"
                 value={userAge}
-                onChange={(e) => setUserAge(parseInt(e.target.value))}
+                onChange={(e) => setUserAge(Number(e.target.value))}
+                onInput={(e) => setUserAge(Number(e.target.value))}
                 className="range-slider"
                 aria-label="Citizen Age"
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                 <span>{t('advisor.pediatricAge', '4 yrs (Pediatric)')}</span>
                 <span>40 {language === 'hi' ? 'वर्ष' : 'yrs'}</span>
                 <span>{t('advisor.geriatricAge', '85 yrs (Geriatric)')}</span>
@@ -409,11 +422,12 @@ export default function AiAdvisorPage() {
                 max="12"
                 step="0.5"
                 value={outdoorHours}
-                onChange={(e) => setOutdoorHours(parseFloat(e.target.value))}
+                onChange={(e) => setOutdoorHours(Number(e.target.value))}
+                onInput={(e) => setOutdoorHours(Number(e.target.value))}
                 className="range-slider"
                 aria-label="Outdoor Exposure Today"
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                 <span>{t('advisor.strictQuarantine', '0h (Strict Quarantine)')}</span>
                 <span>4h</span>
                 <span>{t('advisor.fieldCommute', '12h (Field / Commute)')}</span>
@@ -952,11 +966,12 @@ export default function AiAdvisorPage() {
                 max="800"
                 step="20"
                 value={roomSqFt}
-                onChange={(e) => setRoomSqFt(parseInt(e.target.value))}
+                onChange={(e) => setRoomSqFt(Number(e.target.value))}
+                onInput={(e) => setRoomSqFt(Number(e.target.value))}
                 className="range-slider"
                 aria-label="Room Floor Area"
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                 <span>80 sq ft ({language === 'hi' ? 'छोटा बेडरूम' : 'Small Bedroom'})</span>
                 <span>800 sq ft ({language === 'hi' ? 'बड़ा लिविंग हॉल' : 'Large Living Hall'})</span>
               </div>
@@ -974,11 +989,12 @@ export default function AiAdvisorPage() {
                 max="14"
                 step="1"
                 value={ceilingHeightFt}
-                onChange={(e) => setCeilingHeightFt(parseInt(e.target.value))}
+                onChange={(e) => setCeilingHeightFt(Number(e.target.value))}
+                onInput={(e) => setCeilingHeightFt(Number(e.target.value))}
                 className="range-slider"
                 aria-label="Ceiling Height"
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-muted)', userSelect: 'none', pointerEvents: 'none', marginTop: '4px' }}>
                 <span>8 ft ({language === 'hi' ? 'सामान्य छत' : 'Standard Flat'})</span>
                 <span>14 ft ({language === 'hi' ? 'ऊंची छत / डुप्लेक्स' : 'High Ceiling / Duplex'})</span>
               </div>

@@ -489,6 +489,10 @@ p.muted {
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
+  margin: 10px 0;
+  display: block;
+  position: relative;
+  z-index: 2;
 }
 
 .range-slider::-webkit-slider-thumb {
@@ -502,6 +506,20 @@ p.muted {
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   transition: transform 0.15s ease;
+  position: relative;
+  z-index: 3;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--accent-primary);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 3;
 }
 
 .range-slider::-webkit-slider-thumb:hover {
