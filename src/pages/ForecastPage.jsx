@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import Forecast72h from '../components/Forecast72h';
 import { DELHI_STATIONS } from '../data/delhiStationsData';
 import { useApp } from '../context/useApp';
-import { generateML72hForecast } from '../utils/mlEngine';
+import { generateML72hForecast, evaluateEarlyGRAPTrigger } from '../utils/mlEngine';
 
 export default function ForecastPage() {
-  const { selectedStation, setSelectedStation, t, stations } = useApp();
+  const { selectedStation, setSelectedStation, t, language, stations } = useApp();
   const [filterQuery, setFilterQuery] = useState('');
 
   const fullForecast = generateML72hForecast(selectedStation);
+  const grapEarlyTrigger = evaluateEarlyGRAPTrigger(fullForecast);
 
   // Filtered rows for detailed table
   const filteredHourly = fullForecast.filter(f =>
@@ -57,6 +58,100 @@ export default function ForecastPage() {
           </div>
         </div>
       </div>
+
+      {/* Proactive CAQM GRAP-3/4 Early Advisory System */}
+      {grapEarlyTrigger && (
+        <div style={{
+          backgroundColor: grapEarlyTrigger.urgency === 'CRITICAL_EMERGENCY'
+            ? 'var(--aqi-hazardous-bg)'
+            : grapEarlyTrigger.urgency === 'HIGH_ALERT'
+            ? 'var(--aqi-unhealthy-bg)'
+            : 'var(--bg-panel)',
+          border: `1px solid ${
+            grapEarlyTrigger.urgency === 'CRITICAL_EMERGENCY'
+              ? 'var(--aqi-hazardous-border)'
+              : grapEarlyTrigger.urgency === 'HIGH_ALERT'
+              ? 'var(--aqi-unhealthy-border)'
+              : 'var(--border-color)'
+          }`,
+          borderRadius: 'var(--radius-card)',
+          padding: '16px 20px',
+          marginBottom: '20px',
+          boxShadow: 'var(--shadow-sm)'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', marginBottom: '10px' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <span style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  padding: '3px 8px',
+                  borderRadius: '4px',
+                  backgroundColor: grapEarlyTrigger.urgency === 'CRITICAL_EMERGENCY' ? '#ef4444' : '#f97316',
+                  color: '#ffffff'
+                }}>
+                  {language === 'hi' ? '⚡ CAQM अग्रिम GRAP चेतावनी' : '⚡ CAQM PROACTIVE GRAP TRIGGER'}
+                </span>
+                <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-main)' }}>
+                  {grapEarlyTrigger.triggerStage}
+                </span>
+              </div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+                {language === 'hi'
+                  ? `भौतिकी-संवर्धित मॉडल ने अगले 72 घंटों में +${grapEarlyTrigger.peakHour}h पर चरम AQI ${grapEarlyTrigger.peakPredictedAQI} की भविष्यवाणी की है (${grapEarlyTrigger.consecutiveSevereHours} घंटे गंभीर प्रदूषण अवधि)।`
+                  : `PINN physics model projects persistent severe atmospheric trapping peaking at AQI ${grapEarlyTrigger.peakPredictedAQI} (+${grapEarlyTrigger.peakHour}h horizon) across ${grapEarlyTrigger.consecutiveSevereHours} consecutive hours.`}
+              </div>
+            </div>
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '12px',
+              fontWeight: 700,
+              backgroundColor: 'var(--bg-panel)',
+              padding: '6px 14px',
+              borderRadius: '6px',
+              border: '1px solid var(--border-color)'
+            }}>
+              <div>
+                <span style={{ opacity: 0.65, fontSize: '10px', display: 'block' }}>ADVANCE NOTICE</span>
+                <span style={{ color: 'var(--accent-primary)', fontSize: '14px' }}>+{grapEarlyTrigger.leadTimeHours}h LEAD</span>
+              </div>
+              <div style={{ borderLeft: '1px solid var(--border-color)', paddingLeft: '12px' }}>
+                <span style={{ opacity: 0.65, fontSize: '10px', display: 'block' }}>PEAK FORECAST</span>
+                <span style={{ color: '#ef4444', fontSize: '14px' }}>AQI {grapEarlyTrigger.peakPredictedAQI}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: '1px dashed var(--border-color)', paddingTop: '10px', marginTop: '10px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '6px', color: 'var(--text-main)' }}>
+              {language === 'hi' ? '📋 अग्रिम वैधानिक आपातकालीन निर्देश (24-48 घंटे पूर्व)' : '📋 Mandated Early Policy Interventions (Triggered 24-48h Prior to Smog Clamp):'}
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '8px' }}>
+              {grapEarlyTrigger.recommendedInterventions.map((action, idx) => (
+                <div key={idx} style={{
+                  fontSize: '11.5px',
+                  backgroundColor: 'var(--bg-page)',
+                  padding: '6px 10px',
+                  borderRadius: '4px',
+                  border: '1px solid var(--border-color)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <span style={{ color: 'var(--accent-primary)', fontWeight: 800 }}>•</span>
+                  <span>{action}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main 72h Forecast Component */}
       <Forecast72h station={selectedStation} />

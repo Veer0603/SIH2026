@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { AQI_CATEGORIES } from '../data/delhiStationsData';
 import AQIGauge from './AQIGauge';
-import { calculateCigaretteEquivalent, getGRAPStage } from '../utils/mlEngine';
+import { calculateCigaretteEquivalent, calculateAQLIImpact, getGRAPStage } from '../utils/mlEngine';
 import { useApp } from '../context/useApp';
 import { calculateCompleteCPCB_AQI } from '../utils/cpcbAqiEngine';
 
 export default function CurrentAQICard({ station, customLocality }) {
   const { toggleComparison, comparisonList, favorites, toggleFavorite, language } = useApp();
   const [showGrapDetails, setShowGrapDetails] = useState(false);
+  const [healthMetricMode, setHealthMetricMode] = useState('cigarette'); // 'cigarette' | 'aqli'
 
   // Authentically compute official CPCB sub-indices and overall AQI dynamically
   const cpcbMetrics = calculateCompleteCPCB_AQI(station);
@@ -18,6 +19,7 @@ export default function CurrentAQICard({ station, customLocality }) {
 
   const categoryMeta = AQI_CATEGORIES[activeCategory] || AQI_CATEGORIES[station.category] || AQI_CATEGORIES["Moderate"];
   const cigaretteData = calculateCigaretteEquivalent(station.pm25);
+  const aqliData = calculateAQLIImpact(station.pm25);
   const grapData = getGRAPStage(activeAQI);
 
   const isCompared = comparisonList.some(s => s.id === station.id);
@@ -191,30 +193,92 @@ export default function CurrentAQICard({ station, customLocality }) {
 
           <AQIGauge aqi={activeAQI} size={210} />
 
-          {/* Cigarette Inhalation Equivalent Card */}
+          {/* Health Impact Metric Card: Berkeley Earth Cigarettes vs Univ of Chicago AQLI */}
           <div style={{
             width: '100%',
             marginTop: '16px',
             backgroundColor: 'var(--bg-panel)',
             border: '1px solid currentColor',
             borderRadius: 'var(--radius-sm)',
-            padding: '12px 16px',
+            padding: '12px 14px',
             textAlign: 'left',
             boxShadow: 'var(--shadow-sm)'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '3px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                {language === 'hi' ? 'धूम्रपान विषाक्तता समतुल्य' : 'Smoking Toxicity Equivalent'}
-              </span>
-              <span style={{ fontSize: '15px', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>
-                🚬 ~{cigaretteData.cigarettes} {language === 'hi' ? 'सिगरेट/दिन' : 'cigs/day'}
-              </span>
+            {/* Mode Switcher Tabs */}
+            <div style={{ display: 'flex', gap: '6px', marginBottom: '8px', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>
+              <button
+                type="button"
+                onClick={() => setHealthMetricMode('cigarette')}
+                style={{
+                  background: healthMetricMode === 'cigarette' ? 'var(--accent-primary)' : 'transparent',
+                  color: healthMetricMode === 'cigarette' ? '#ffffff' : 'var(--text-muted)',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '3px 8px',
+                  fontSize: '10.5px',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                🚬 {language === 'hi' ? 'सिगरेट समतुल्य' : 'Cigarette Equiv'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setHealthMetricMode('aqli')}
+                style={{
+                  background: healthMetricMode === 'aqli' ? 'var(--accent-primary)' : 'transparent',
+                  color: healthMetricMode === 'aqli' ? '#ffffff' : 'var(--text-muted)',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '3px 8px',
+                  fontSize: '10.5px',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                ⏳ {language === 'hi' ? 'AQLI आयु प्रभाव' : 'AQLI Life Impact'}
+              </button>
             </div>
-            <div style={{ fontSize: '11.5px', opacity: 0.9, lineHeight: 1.4 }}>
-              {language === 'hi'
-                ? `इस वायु में 24 घंटे सांस लेना दिन में ~${cigaretteData.cigarettes} सिगरेट पीने के बराबर फेफड़ों को नुकसान पहुंचाता है।`
-                : `${cigaretteData.description} (Berkeley Earth standard calculation based on ${station.pm25} µg/m³ PM2.5).`}
-            </div>
+
+            {healthMetricMode === 'cigarette' ? (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '3px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    {language === 'hi' ? 'धूम्रपान विषाक्तता समतुल्य' : 'Smoking Toxicity Equivalent'}
+                  </span>
+                  <span style={{ fontSize: '15px', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>
+                    🚬 ~{cigaretteData.cigarettes} {language === 'hi' ? 'सिगरेट/दिन' : 'cigs/day'}
+                  </span>
+                </div>
+                <div style={{ fontSize: '11.5px', opacity: 0.9, lineHeight: 1.4 }}>
+                  {language === 'hi'
+                    ? `इस वायु में 24 घंटे सांस लेना दिन में ~${cigaretteData.cigarettes} सिगरेट पीने के बराबर फेफड़ों को नुकसान पहुंचाता है।`
+                    : `${cigaretteData.description} (Berkeley Earth standard calculation based on ${station.pm25} µg/m³ PM2.5).`}
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '3px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    {language === 'hi' ? 'जीवन प्रत्याशा हानि (AQLI)' : 'Life Expectancy Loss (AQLI)'}
+                  </span>
+                  <span style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--aqi-hazardous-text)' }}>
+                    ⏳ -{aqliData.yearsLostWHO} {language === 'hi' ? 'वर्ष' : 'years'}
+                  </span>
+                </div>
+                <div style={{ fontSize: '11.5px', opacity: 0.9, lineHeight: 1.4, marginBottom: '6px' }}>
+                  {language === 'hi'
+                    ? `WHO दिशा-निर्देश (5 µg/m³) की तुलना में इस क्षेत्र के निवासी औसतन ${aqliData.yearsLostWHO} वर्ष जीवन खो रहे हैं (-${aqliData.yearsLostCPCB} वर्ष भारतीय मानक 40 µg/m³ की तुलना में)।`
+                    : `Sustained exposure at this level reduces life expectancy by ${aqliData.yearsLostWHO} years vs WHO guideline (-${aqliData.yearsLostCPCB} yrs vs Indian 40 µg/m³ standard).`}
+                </div>
+                {/* Chronic Disease Excess Risk Badges */}
+                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', fontSize: '10px', fontWeight: 700 }}>
+                  <span style={{ padding: '2px 5px', borderRadius: '3px', background: 'rgba(239, 68, 68, 0.15)', color: '#ef4444' }}>COPD: +{aqliData.copdExcessRiskPct}%</span>
+                  <span style={{ padding: '2px 5px', borderRadius: '3px', background: 'rgba(249, 115, 22, 0.15)', color: '#f97316' }}>Cardio: +{aqliData.cardioExcessRiskPct}%</span>
+                  <span style={{ padding: '2px 5px', borderRadius: '3px', background: 'rgba(168, 85, 247, 0.15)', color: '#a855f7' }}>Stroke: +{aqliData.strokeExcessRiskPct}%</span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div style={{ marginTop: '14px', width: '100%', textAlign: 'left', borderTop: '1px solid currentColor', paddingTop: '10px' }}>
