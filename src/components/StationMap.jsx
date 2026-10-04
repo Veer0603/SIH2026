@@ -42,11 +42,8 @@ export default function StationMap({ onOpenAddModal }) {
   const firmsLayerRef = useRef(null);
   const userLocationLayerRef = useRef(null);
 
-  // Persistent Settings
-  const [mapboxToken, setMapboxToken] = useState(() => {
-    return localStorage.getItem('aeris_mapbox_token') || import.meta.env.VITE_MAPBOX_TOKEN || DEFAULT_MAPBOX_TOKEN;
-  });
-  const [tempTokenInput, setTempTokenInput] = useState(mapboxToken);
+  // Mapbox Token (configured securely via environment)
+  const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN || DEFAULT_MAPBOX_TOKEN;
 
   const [mapStyle, setMapStyle] = useState('auto'); // 'auto' | 'dark-v11' | 'light-v11' | 'satellite-streets-v12' | 'outdoors-v12' | 'streets-v12' | 'navigation-night-v1'
   const [tileProvider, setTileProvider] = useState('mapbox'); // 'mapbox' | 'cartodb' | 'osm'
@@ -66,7 +63,7 @@ export default function StationMap({ onOpenAddModal }) {
   const [categoryFilter, setCategoryFilter] = useState('all'); // 'all' | 'severe' | 'unhealthy' | 'moderate'
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [activeSettingsTab, setActiveSettingsTab] = useState('style'); // 'style' | 'layers' | 'token'
+  const [activeSettingsTab, setActiveSettingsTab] = useState('style'); // 'style' | 'layers'
 
   // Resolve actual mapbox style string
   const activeStyleId = useMemo(() => {
@@ -555,23 +552,6 @@ export default function StationMap({ onOpenAddModal }) {
     );
   };
 
-  const handleSaveToken = () => {
-    if (!tempTokenInput.trim()) {
-      addToast(language === 'hi' ? 'कृपया वैध टोकन दर्ज करें' : 'Please provide a valid token', 'error');
-      return;
-    }
-    setMapboxToken(tempTokenInput.trim());
-    localStorage.setItem('aeris_mapbox_token', tempTokenInput.trim());
-    addToast(language === 'hi' ? 'नया मैपबॉक्स टोकन सहेजा गया व सक्रिय हुआ!' : 'Mapbox Access Token saved & activated!', 'success');
-  };
-
-  const handleResetToken = () => {
-    setMapboxToken(DEFAULT_MAPBOX_TOKEN);
-    setTempTokenInput(DEFAULT_MAPBOX_TOKEN);
-    localStorage.removeItem('aeris_mapbox_token');
-    addToast(language === 'hi' ? 'डिफ़ॉल्ट मैपबॉक्स टोकन पर रीसेट किया गया' : 'Reset to default Mapbox public token', 'info');
-  };
-
   return (
     <div
       className={`panel ${isFullscreen ? 'mapbox-container-fullscreen' : ''}`}
@@ -604,7 +584,7 @@ export default function StationMap({ onOpenAddModal }) {
             onClick={() => setIsSettingsOpen(true)}
             className="btn btn-outline btn-sm"
             style={{ fontSize: '11px', padding: '5px 10px', display: 'flex', alignItems: 'center', gap: '4px' }}
-            title="Configure Mapbox styles, custom tokens, and layers"
+            title="Configure basemap styles, resolution, and atmospheric layers"
           >
             <span>⚙️</span>
             <span>{t('map.settings', 'Mapbox Settings')}</span>
@@ -844,7 +824,7 @@ export default function StationMap({ onOpenAddModal }) {
                   {t('map.settingsTitle', 'Mapbox Configuration & Visual Overlays')}
                 </h3>
                 <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>
-                  {t('map.settingsSubtitle', 'Customize vector tile styles, Mapbox API token, resolution, and atmospheric overlay layers.')}
+                  {t('map.settingsSubtitle', 'Customize vector tile styles, resolution, and atmospheric overlay layers.')}
                 </p>
               </div>
 
@@ -861,8 +841,7 @@ export default function StationMap({ onOpenAddModal }) {
             <div style={{ display: 'flex', gap: '8px', marginBottom: '18px', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px' }}>
               {[
                 { id: 'style', label: language === 'hi' ? '🎨 बेसमेप शैली' : '🎨 Basemap Style' },
-                { id: 'layers', label: language === 'hi' ? '🌪️ वायुमंडलीय परतें' : '🌪️ Layers & Smoke' },
-                { id: 'token', label: language === 'hi' ? '🔑 मैपबॉक्स एपीआई टोकन' : '🔑 API Token & Source' }
+                { id: 'layers', label: language === 'hi' ? '🌪️ वायुमंडलीय परतें' : '🌪️ Layers & Smoke' }
               ].map(tb => (
                 <button
                   key={tb.id}
@@ -885,6 +864,35 @@ export default function StationMap({ onOpenAddModal }) {
             {/* TAB 1: BASEMAP STYLES */}
             {activeSettingsTab === 'style' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {/* Tile Provider Fallback Selector */}
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                    {language === 'hi' ? 'टाइल प्रदाता सेवा:' : 'Tile Provider Service:'}
+                  </label>
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
+                    {[
+                      { id: 'mapbox', label: 'Mapbox API (High-Res Vector)' },
+                      { id: 'cartodb', label: 'CartoDB (Dark/Light Matter)' },
+                      { id: 'osm', label: 'OpenStreetMap' }
+                    ].map(p => (
+                      <button
+                        key={p.id}
+                        onClick={() => setTileProvider(p.id)}
+                        className="btn btn-outline btn-sm"
+                        style={{
+                          flex: 1,
+                          backgroundColor: tileProvider === p.id ? 'var(--accent-primary)' : 'transparent',
+                          color: tileProvider === p.id ? '#ffffff' : 'var(--text-main)',
+                          borderColor: tileProvider === p.id ? 'var(--accent-primary)' : 'var(--border-color)',
+                          fontSize: '11px'
+                        }}
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
                     {t('map.tileStyleLabel', 'Mapbox Basemap Style:')}
@@ -1175,73 +1183,6 @@ export default function StationMap({ onOpenAddModal }) {
                       </div>
                     </div>
                   )}
-                </div>
-              </div>
-            )}
-
-            {/* TAB 3: API TOKEN & PROVIDER */}
-            {activeSettingsTab === 'token' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {/* Tile Provider Fallback Selector */}
-                <div>
-                  <label style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                    {language === 'hi' ? 'टाइल प्रदाता सेवा:' : 'Tile Provider Service:'}
-                  </label>
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
-                    {[
-                      { id: 'mapbox', label: 'Mapbox API (High-Res Vector)' },
-                      { id: 'cartodb', label: 'CartoDB (Dark/Light Matter)' },
-                      { id: 'osm', label: 'OpenStreetMap' }
-                    ].map(p => (
-                      <button
-                        key={p.id}
-                        onClick={() => setTileProvider(p.id)}
-                        className="btn btn-outline btn-sm"
-                        style={{
-                          flex: 1,
-                          backgroundColor: tileProvider === p.id ? 'var(--accent-primary)' : 'transparent',
-                          color: tileProvider === p.id ? '#ffffff' : 'var(--text-main)',
-                          borderColor: tileProvider === p.id ? 'var(--accent-primary)' : 'var(--border-color)',
-                          fontSize: '11px'
-                        }}
-                      >
-                        {p.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Custom Token Input */}
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                    <label style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                      {t('map.customTokenLabel', 'Custom Mapbox Access Token:')}
-                    </label>
-                    <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700 }}>
-                      ✓ {t('map.tokenActive', 'Active (Authenticated)')}
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="input-text"
-                    placeholder={t('map.tokenPlaceholder', 'pk.eyJ1Ijo...')}
-                    value={tempTokenInput}
-                    onChange={(e) => setTempTokenInput(e.target.value)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', width: '100%', marginBottom: '8px' }}
-                  />
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button onClick={handleSaveToken} className="btn btn-sm">
-                      {t('map.saveToken', 'Save Token')}
-                    </button>
-                    <button onClick={handleResetToken} className="btn btn-outline btn-sm">
-                      {t('map.resetToken', 'Reset to Default')}
-                    </button>
-                  </div>
-                  <p style={{ fontSize: '11.5px', color: 'var(--text-muted)', marginTop: '8px', lineHeight: 1.4 }}>
-                    {language === 'hi'
-                      ? 'आप अपना व्यक्तिगत Mapbox सार्वजनिक टोकन (pk.eyJ...) उपयोग कर सकते हैं। यह आपके ब्राउज़र में सुरक्षित रूप से सहेजा जाता है।'
-                      : 'You can connect your personal Mapbox token from mapbox.com to use custom map styles or higher API rate limits. Token is stored locally.'}
-                  </p>
                 </div>
               </div>
             )}
