@@ -150,11 +150,12 @@ export default function AiAdvisorPage() {
   };
 
   // Real-time Dynamic Bio-Dosimetry Calculations
-  const maskEfficiencies = { none: 0.0, cloth: 0.20, surgical: 0.45, n95: 0.95 };
-  const maskEfficiency = maskEfficiencies[maskType] ?? 0.5;
+  // Real-world field protection factors (accounting for facial fit, movement & speech)
+  const maskEfficiencies = { none: 0.0, cloth: 0.20, surgical: 0.45, n95: 0.80 };
+  const maskEfficiency = maskEfficiencies[maskType] ?? 0.45;
 
-  const exertionRates = { sedentary: 0.5, moderate: 1.1, heavy: 2.8 }; // m3/h ventilation
-  const baseRate = exertionRates[activityExertion] || 1.0;
+  const exertionRates = { sedentary: 0.55, moderate: 1.15, heavy: 2.8 }; // m3/h ventilation
+  const baseRate = exertionRates[activityExertion] || 1.15;
 
   // Continuous physiological age multiplier for respiratory ventilation & alveolar particulate deposition
   // (Based on EPA Inhalation Reference & ICRP Human Respiratory Tract Model)
@@ -172,12 +173,19 @@ export default function AiAdvisorPage() {
 
   // Outdoor vs indoor PM2.5 calculation
   const outdoorPM25 = selectedStation.pm25 || (selectedStation.aqi * 0.7);
-  const indoorReductionFactors = { none: 0.70, room: 0.22, whole: 0.08 };
-  const indoorPM25 = outdoorPM25 * (indoorReductionFactors[indoorPurification] ?? 0.35);
+  const indoorReductionFactors = { none: 0.65, room: 0.22, whole: 0.08 };
+  const indoorPM25 = outdoorPM25 * (indoorReductionFactors[indoorPurification] ?? 0.30);
 
-  const outdoorDoseUg = outdoorHours * personalBreathingRate * outdoorPM25 * (1 - maskEfficiency);
+  // Indoor hourly resting dose (resting breathing rate ~0.45 m3/h)
+  const indoorRatePerHour = (0.45 * ageFactor) * indoorPM25;
+  // Outdoor hourly dose: accounts for ambient concentration, higher exertion breathing rate, and mask filtration
+  const rawOutdoorRatePerHour = personalBreathingRate * outdoorPM25 * (1 - maskEfficiency);
+  // Stepping outdoors into Delhi smog always delivers higher particulate deposition than staying indoors in that same hour
+  const outdoorRatePerHour = Math.max(rawOutdoorRatePerHour, indoorRatePerHour * 1.25);
+
+  const outdoorDoseUg = outdoorHours * outdoorRatePerHour;
   const indoorHours = Math.max(0, 24 - outdoorHours);
-  const indoorDoseUg = indoorHours * (0.45 * ageFactor) * indoorPM25;
+  const indoorDoseUg = indoorHours * indoorRatePerHour;
   const totalInhaledDoseUg = Math.round(outdoorDoseUg + indoorDoseUg);
 
   // Equivalent cigarettes per day (Berkeley Earth: 1 cigarette ≈ 22 µg/m³ 24h ambient exposure ≈ 238 µg total inhaled lung dose)
@@ -193,11 +201,16 @@ export default function AiAdvisorPage() {
     commuter: 1.4
   };
   const profileWeight = profileVulnerabilityWeights[userProfile] || 1.0;
-  const unmitigatedDoseUg = (outdoorHours * personalBreathingRate * outdoorPM25) + (indoorHours * (0.45 * ageFactor) * (outdoorPM25 * 0.70));
-  const rawRiskReduction = unmitigatedDoseUg > 0 ? Math.round(((unmitigatedDoseUg - totalInhaledDoseUg) / unmitigatedDoseUg) * 100) : 0;
-  // Checklist contribution adds up to +20% extra behavioral mitigation
-  const checklistBonus = Math.round((completedCount / (actionKeys.length || 1)) * 20);
-  const totalProtectionScore = Math.min(99, Math.max(5, rawRiskReduction + checklistBonus));
+
+  // Unmitigated baseline: reference daily ambient dose if citizen spent 24h outdoors with zero protection
+  const referenceAmbientDoseUg = 24 * personalBreathingRate * outdoorPM25;
+  const doseMitigatedUg = Math.max(0, referenceAmbientDoseUg - totalInhaledDoseUg);
+  const rawRiskReduction = referenceAmbientDoseUg > 0 ? Math.round((doseMitigatedUg / referenceAmbientDoseUg) * 100) : 0;
+  
+  // Checklist contribution adds up to +15% extra behavioral mitigation
+  const checklistBonus = Math.round((completedCount / (actionKeys.length || 1)) * 15);
+  // Total Personal Shield Level decreases as outdoor hours increase (loss of indoor sanctuary), and increases with masks, purifiers, and protocol
+  const totalProtectionScore = Math.min(99, Math.max(5, Math.round(rawRiskReduction * (1 - (outdoorHours / 24) * 0.15) + checklistBonus)));
 
   // Determine whether this is a high alert state
   const isHighAlert = advice.outdoorScoreNum < 4.0 || selectedStation.aqi > 200;
